@@ -2,6 +2,7 @@ import Hero from '@/sections/Hero/Hero';
 import Intro from '@/sections/Intro/Intro';
 import Practices from '@/sections/Practices/Practices';
 import Events from '@/sections/Events/Events';
+import PastEvents from '@/sections/PastEvents/PastEvents';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Intro />
       <Practices />
       <Events />
+      <PastEvents />
     </main>
   );
 }
