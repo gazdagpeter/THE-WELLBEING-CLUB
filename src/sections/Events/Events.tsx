@@ -116,7 +116,8 @@ export default function Events() {
         const { x, y, rotation } = slots[slot];
         const zIndex = slot === CENTER ? 3 : wraps ? 0 : 1;
         if (!moving) {
-          gsap.set(card, { x, y, rotation, zIndex, xPercent: -50, yPercent: -50 });
+          gsap.killTweensOf(card);
+          gsap.set(card, { x, y, rotation, zIndex, scale: 1, xPercent: -50, yPercent: -50 });
           return;
         }
         // stacking changes when the cards actually cross (mid-way), not at the start
@@ -138,18 +139,32 @@ export default function Events() {
     [order, animated, isDesktop],
   );
 
+  /** latest `place` for the resize observer – it must NOT be re-created on every rotation */
+  const placeRef = useRef(place);
+
   useLayoutEffect(() => {
+    placeRef.current = place;
     place(!placed.current);
     placed.current = true;
   }, [place]);
 
+  // Re-place instantly only when the stage really changes size. (Earlier this observer was
+  // re-created on every rotation; its initial callback snapped the cards to their target
+  // while the rotation tween was still running → the cards vibrated.)
   useLayoutEffect(() => {
     const stageEl = stage.current;
     if (!stageEl) return;
-    const ro = new ResizeObserver(() => place(true));
+    let last = '';
+    const ro = new ResizeObserver(([entry]) => {
+      const size = `${Math.round(entry.contentRect.width)}x${Math.round(entry.contentRect.height)}`;
+      if (size === last) return;
+      const first = last === '';
+      last = size;
+      if (!first) placeRef.current(true);
+    });
     ro.observe(stageEl);
     return () => ro.disconnect();
-  }, [place]);
+  }, []);
 
   /* ───────── scroll: revealed underneath the previous block (parallax) ───────── */
   useGSAP(

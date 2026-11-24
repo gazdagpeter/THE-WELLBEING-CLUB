@@ -56,11 +56,12 @@
 }
 
 /* prev / next */
+/* mobile / tablet: cards are swiped, no arrows */
 .events__nav {
   position: relative;
   z-index: 4;
   order: 3;
-  display: flex;
+  display: none;
   justify-content: center;
   gap: 12px;
   margin-top: 16px;
@@ -365,6 +366,7 @@
 
   .events__nav {
     position: absolute;
+    display: flex;
     left: 169.6rem;
     top: 13rem;
     gap: 1.2rem;
