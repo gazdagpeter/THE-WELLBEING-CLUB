@@ -1,9 +1,11 @@
-/**
- * Application root.
- * Intentionally empty – the UI will be implemented from the upcoming Figma design.
- */
+import Hero from '@/sections/Hero/Hero';
+
 function App() {
-  return <main />;
+  return (
+    <main>
+      <Hero />
+    </main>
+  );
 }
 
 export default App;

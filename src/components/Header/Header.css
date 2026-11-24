@@ -1,0 +1,194 @@
+/* Mobile first */
+.header {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px var(--page-gutter);
+}
+
+.header__logo img {
+  width: auto;
+  height: 44px;
+}
+
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header__lang {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brand-malyva);
+}
+
+.header__lang-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header__lang a {
+  transition: color 0.3s var(--ease-out);
+}
+
+.header__lang a:hover,
+.header__lang a.is-active {
+  color: var(--brand-bordo);
+}
+
+.header__booking {
+  display: none;
+}
+
+/* Mobile menu panel */
+.header__nav {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--page-gutter);
+  background: var(--brand-tort-feher);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.5s var(--ease-out),
+    visibility 0.5s;
+}
+
+.header.is-open .header__nav {
+  opacity: 1;
+  visibility: visible;
+}
+
+.header__menu {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1;
+  color: var(--brand-bordo);
+}
+
+.header__toggle {
+  display: grid;
+  place-content: center;
+  gap: 7px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.header__toggle-bar {
+  display: block;
+  width: 26px;
+  height: 1px;
+  background: var(--brand-bordo);
+  transition: transform 0.4s var(--ease-out);
+}
+
+.header.is-open .header__toggle-bar:first-of-type {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.header.is-open .header__toggle-bar:last-of-type {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+@media (min-width: 640px) {
+  .header__booking {
+    display: block;
+  }
+}
+
+/* Desktop – Figma „Fejléc” */
+@media (min-width: 1200px) {
+  .header {
+    inset: 3.6rem 10rem auto;
+    height: 6.4rem;
+    padding: 0;
+  }
+
+  .header__logo img {
+    width: 12.5698rem;
+    height: 6rem;
+  }
+
+  .header__nav {
+    position: absolute;
+    inset: auto;
+    left: 58.667rem;
+    top: 2.45rem;
+    z-index: auto;
+    display: block;
+    padding: 0;
+    background: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .header__menu {
+    flex-direction: row;
+    gap: 4.4rem;
+    font-family: var(--font-sans);
+    font-size: max(1.5rem, 12px);
+    line-height: 1;
+    letter-spacing: 0.06em;
+    color: var(--text-sotet);
+  }
+
+  .header__menu a {
+    position: relative;
+    display: inline-block;
+  }
+
+  .header__menu a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.6rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .header__menu a:hover::after,
+  .header__menu a:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .header__right {
+    gap: 3.6rem;
+  }
+
+  .header__lang,
+  .header__lang-item {
+    gap: 0.8rem;
+  }
+
+  .header__lang {
+    font-size: max(1.3rem, 11px);
+  }
+
+  .header__toggle {
+    display: none;
+  }
+}

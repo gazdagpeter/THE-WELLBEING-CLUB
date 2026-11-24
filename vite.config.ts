@@ -11,6 +11,8 @@ export default defineConfig({
   },
   build: {
     target: 'es2022',
+    // three.js is one intentionally separate chunk
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
         manualChunks(id) {

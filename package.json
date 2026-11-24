@@ -11,6 +11,9 @@
     "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
+    "@fontsource/bellefair": "^5.3.0",
+    "@fontsource/jost": "^5.3.0",
+    "@fontsource/ms-madi": "^5.3.0",
     "@gsap/react": "^2.1.2",
     "gsap": "^3.15.1",
     "react": "^19.3.1",

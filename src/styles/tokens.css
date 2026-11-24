@@ -1,0 +1,35 @@
+/* Design tokens – from the Figma file (THE-WELLBEING-CLUB) */
+:root {
+  /* brand */
+  --brand-bordo: #590110;
+  --brand-tort-feher: #f7f2ee;
+  --brand-malyva: #b98a93;
+  --brand-puder: #d8b4b8;
+  --brand-rozsas: #ebd9d6;
+  --text-sotet: #3d0a14;
+
+  /* typography */
+  --font-sans: 'Jost', system-ui, sans-serif;
+  --font-display: 'Bellefair', 'Times New Roman', serif;
+  --font-script: 'Ms Madi', cursive;
+
+  /* layout */
+  --page-gutter: 2rem;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/*
+ * Desktop: the layout follows the 1920px wide Figma frame and scales fluidly.
+ * 1rem = 10 design px at 1920px viewport width.
+ */
+@media (min-width: 1200px) {
+  html {
+    font-size: calc(100vw / 192);
+  }
+}
+
+@media (min-width: 2560px) {
+  html {
+    font-size: 13.333px;
+  }
+}

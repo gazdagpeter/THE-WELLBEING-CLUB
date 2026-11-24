@@ -34,6 +34,7 @@ Irányelvek a Claude Code (és minden fejlesztő) számára a **The Wellbeing Cl
 | `src/three/`      | Three.js jelenetek, részecskerendszerek   |
 | `src/styles/`     | Globális stílusok                         |
 | `src/assets/`     | Importált média (képek, fontok)           |
+| `src/content/`    | Szövegek (később HU / SK nyelvi változat) |
 | `public/`         | Változatlanul kiszolgált statikus fájlok  |
 
 ### Parancsok
@@ -42,6 +43,8 @@ Irányelvek a Claude Code (és minden fejlesztő) számára a **The Wellbeing Cl
 - `npm run build` – típusellenőrzés + production build
 - `npm run lint` – ESLint
 - `npm run typecheck` – TypeScript ellenőrzés
+
+- `node scripts/extract-hero-dots.mjs` – a hero pontfigura koordinátáinak újragenerálása a Figma SVG-kből (`src/three/heroDots.json`)
 
 Minden commit előtt a `npm run lint` és a `npm run build` legyen hibamentes.
 

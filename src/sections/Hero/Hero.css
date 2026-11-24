@@ -1,0 +1,338 @@
+/* ───────── Hero – mobile first ───────── */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--brand-tort-feher);
+  color: var(--brand-bordo);
+}
+
+/* background glows */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero__glow {
+  position: absolute;
+  max-width: none;
+}
+
+.hero__glow--rose {
+  left: -10%;
+  top: 18%;
+  width: 190vw;
+  height: auto;
+  aspect-ratio: 1630 / 1430;
+}
+
+.hero__glow--powder {
+  left: -60vw;
+  top: 70%;
+  width: 120vw;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.hero__stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 104px var(--page-gutter) 32px;
+}
+
+/* title */
+.hero__title {
+  position: relative;
+  z-index: 2;
+  order: 1;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.hero__title-line1 {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(56px, 17vw, 150px);
+  letter-spacing: -0.02em;
+}
+
+.hero__title-line2 {
+  display: block;
+  margin-top: -0.32em;
+  padding-left: 0.18em;
+  font-family: var(--font-script);
+  font-size: clamp(70px, 21.6vw, 190px);
+  /* handwriting reveal – driven by GSAP through --reveal */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    #000 calc(var(--reveal, 115%) - 12%),
+    transparent var(--reveal, 115%)
+  );
+  mask-image: linear-gradient(
+    90deg,
+    #000 calc(var(--reveal, 115%) - 12%),
+    transparent var(--reveal, 115%)
+  );
+}
+
+/* art (photo columns + dot figure) */
+.hero__art {
+  position: relative;
+  z-index: 1;
+  order: 2;
+  width: min(100%, 560px);
+  margin: -8% auto 0;
+}
+
+/* intro */
+.hero__intro {
+  position: relative;
+  z-index: 2;
+  order: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 24px;
+}
+
+.hero__lead {
+  max-width: 500px;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-sotet);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px 36px;
+}
+
+/* scroll cue */
+.hero__scroll {
+  order: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 48px auto 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--brand-bordo);
+}
+
+.hero__scroll-line {
+  width: 1px;
+  height: 44px;
+  background: var(--brand-bordo);
+}
+
+/* ───────── Art board internals (936 × 892 Figma units) ───────── */
+
+.hero-art {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 936 / 892;
+}
+
+.hero-art__photo {
+  position: absolute;
+  left: 24.644%;
+  top: 0;
+  width: 58.405%;
+  height: 97.534%;
+}
+
+.hero-art__column {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 999px;
+  /* Safari: keep the rounded clip while transforming */
+  isolation: isolate;
+  transform: translateZ(0);
+}
+
+.hero-art__column img {
+  position: absolute;
+  max-width: none;
+  object-fit: cover;
+  transform-origin: 50% 60%;
+}
+
+.hero-art__silhouette {
+  position: absolute;
+  left: 15.385%;
+  top: 33.892%;
+  width: 69.231%;
+  height: 58.036%;
+}
+
+.hero-art__silhouette img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+.hero-art__dots-soft {
+  height: 100.43%;
+}
+
+.hero-art__dots-bordo {
+  height: 100.26%;
+}
+
+.hero-art__scatter {
+  position: absolute;
+  left: 0;
+  top: 17.749%;
+  width: 100%;
+  height: 82.251%;
+}
+
+.hero-art__canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero-art__canvas canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-art__lines {
+  position: absolute;
+  left: 21.385%;
+  top: 31.794%;
+  width: 40.923%;
+  height: 22.924%;
+  pointer-events: none;
+}
+
+/* ───────── Tablet ───────── */
+@media (min-width: 768px) {
+  :root {
+    --page-gutter: 40px;
+  }
+
+  .hero__stage {
+    padding-top: 128px;
+  }
+
+  .hero__art {
+    width: 70%;
+    margin: -18% 0 0 auto;
+  }
+
+  .hero__intro {
+    margin-top: -10%;
+  }
+
+  .hero__lead {
+    font-size: 20px;
+  }
+}
+
+/* ───────── Desktop – Figma „01 Hero” (1920 × 1080) ───────── */
+@media (min-width: 1200px) {
+  .hero {
+    min-height: max(100svh, 108rem);
+  }
+
+  .hero__glow--rose {
+    left: 58rem;
+    top: -9rem;
+    width: 163rem;
+    height: 143rem;
+  }
+
+  .hero__glow--powder {
+    left: -52rem;
+    top: 54rem;
+    width: 100rem;
+    height: 100rem;
+  }
+
+  .hero__stage {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 108rem;
+    padding: 0;
+    display: block;
+  }
+
+  .hero__art {
+    position: absolute;
+    left: 89.6rem;
+    top: 13rem;
+    width: 93.6rem;
+    margin: 0;
+  }
+
+  .hero__title {
+    position: absolute;
+    left: 10rem;
+    top: 16.8rem;
+    width: 100rem;
+    height: 52rem;
+  }
+
+  .hero__title-line1,
+  .hero__title-line2 {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+  }
+
+  .hero__title-line1 {
+    left: -0.8rem;
+    top: 4.4rem;
+    font-size: 22.8rem;
+    letter-spacing: -0.456rem;
+  }
+
+  .hero__title-line2 {
+    left: 17rem;
+    top: 20rem;
+    font-size: 29rem;
+  }
+
+  .hero__intro {
+    position: absolute;
+    left: 10rem;
+    top: 71.6rem;
+    width: 50rem;
+    margin: 0;
+    gap: 3.6rem;
+  }
+
+  .hero__lead {
+    max-width: none;
+    font-size: max(2rem, 15px);
+  }
+
+  .hero__actions {
+    gap: 3.6rem;
+  }
+
+  .hero__scroll {
+    position: absolute;
+    left: 50%;
+    top: 97.6rem;
+    margin: 0;
+    gap: 1.2rem;
+    font-size: max(1.3rem, 11px);
+    transform: translateX(-50%);
+  }
+
+  .hero__scroll-line {
+    height: 4.4rem;
+  }
+}
