@@ -9,14 +9,14 @@ import { DotFigure } from '@/three/DotFigure';
 
 /**
  * The four rounded photo columns („Stúdiófotó – lamellák”) in Figma units,
- * relative to the 546.667 × 870 photo frame.
+ * relative to the 546.667 × 710 photo frame.
  */
-const PHOTO = { w: 546.667, h: 870 };
+const PHOTO = { w: 546.667, h: 710 };
 const COLUMNS = [
-  { x: 0, y: 80, h: 720 },
-  { x: 146.667, y: 0, h: 870 },
-  { x: 293.333, y: 120, h: 650 },
-  { x: 440, y: 190, h: 650 },
+  { x: 0, y: 63, h: 590 },
+  { x: 146.667, y: 0, h: 710 },
+  { x: 293.333, y: 93, h: 535 },
+  { x: 440, y: 150, h: 538 },
 ];
 const COLUMN_W = 106.667;
 
@@ -92,10 +92,10 @@ export const HeroArt = forwardRef<HeroArtHandle, HeroArtProps>(function HeroArt(
       {!webgl && (
         <>
           <div className="hero-art__silhouette">
-            <img className="hero-art__dots-soft" src={dotsSoft} alt="" width={648.072} height={519.912} />
-            <img className="hero-art__dots-bordo" src={dotsBordo} alt="" width={648.288} height={519.048} />
+            <img className="hero-art__dots-soft" src={dotsSoft} alt="" width={557.342} height={447.124} />
+            <img className="hero-art__dots-bordo" src={dotsBordo} alt="" width={557.528} height={446.381} />
           </div>
-          <img className="hero-art__scatter" src={dotsScatter} alt="" width={936} height={733.68} />
+          <img className="hero-art__scatter" src={dotsScatter} alt="" width={804.96} height={630.965} />
         </>
       )}
 
@@ -105,8 +105,8 @@ export const HeroArt = forwardRef<HeroArtHandle, HeroArtProps>(function HeroArt(
         className="hero-art__lines"
         src={connectLines}
         alt=""
-        width={383.04}
-        height={204.48}
+        width={329.414}
+        height={175.853}
         data-anim="lines"
       />
     </div>

@@ -13,13 +13,13 @@ import {
 import dots from './heroDots.json';
 
 /** Art board of the hero figure in Figma units (see Hero.css). */
-export const ART_WIDTH = 936;
-export const ART_HEIGHT = 892;
+export const ART_WIDTH = 804.96;
+export const ART_HEIGHT = 744.92;
 
 /** Offsets of the dot layers inside the art board (Figma). */
-const SILHOUETTE_OFFSET = { x: 144, y: 302.32 };
-const SCATTER_OFFSET = { x: 0, y: 158.32 };
-const SILHOUETTE_SIZE = { w: 648, h: 517.68 };
+const SILHOUETTE_OFFSET = { x: 123.84, y: 237.795 };
+const SCATTER_OFFSET = { x: 0, y: 113.955 };
+const SILHOUETTE_SIZE = { w: 557.28, h: 445.205 };
 
 const BORDO = '#590110';
 /** Raw sRGB components – the shader writes them straight to the sRGB canvas. */
@@ -78,7 +78,7 @@ const vertexShader = /* glsl */ `
     float dist = length(d);
     float falloff = 1.0 - smoothstep(0.0, uMouseRadius, dist);
     falloff = falloff * falloff;
-    p += (d / max(dist, 0.001)) * falloff * uMouseStrength * 46.0;
+    p += (d / max(dist, 0.001)) * falloff * uMouseStrength * 40.0;
     // a slight swirl makes the displacement feel organic
     p += vec2(-d.y, d.x) / max(dist, 0.001) * falloff * uMouseStrength * 10.0 * (aSeed - 0.5);
 
@@ -204,7 +204,7 @@ export class DotFigure {
       position.set([p.x, p.y, 0], i * 3);
       // dots drift in from a loose cloud around their final position
       const angle = Math.random() * Math.PI * 2;
-      const distance = 120 + Math.random() * 380;
+      const distance = 100 + Math.random() * 330;
       start.set([p.x + Math.cos(angle) * distance, p.y + Math.sin(angle) * distance * 0.75 - 60], i * 2);
       radius[i] = p.r;
       delay[i] = p.delay;
@@ -235,7 +235,7 @@ export class DotFigure {
         uPxScale: { value: 1 },
         uMouse: { value: [-9999, -9999] },
         uMouseStrength: { value: 0 },
-        uMouseRadius: { value: 130 },
+        uMouseRadius: { value: 112 },
         uGlowColor: { value: GLOW },
         uMinPx: { value: 2 },
       },

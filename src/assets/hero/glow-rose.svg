@@ -1,12 +1,12 @@
-<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1630" height="1430" viewBox="0 0 1630 1430" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="H&#195;&#161;tt&#195;&#169;r &#226;&#128;&#147; r&#195;&#179;zs&#195;&#161;s f&#195;&#169;ny" filter="url(#filter0_f_0_152)">
-<ellipse cx="815" cy="715" rx="575" ry="475" fill="#EBD9D6"/>
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1580" height="1300" viewBox="0 0 1580 1300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="H&#195;&#161;tt&#195;&#169;r &#226;&#128;&#147; r&#195;&#179;zs&#195;&#161;s f&#195;&#169;ny" filter="url(#filter0_f_0_155)">
+<ellipse cx="790" cy="650" rx="550" ry="410" fill="#EBD9D6"/>
 </g>
 <defs>
-<filter id="filter0_f_0_152" x="0" y="0" width="1630" height="1430" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_f_0_155" x="0" y="0" width="1580" height="1300" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
-<feGaussianBlur stdDeviation="120" result="effect1_foregroundBlur_0_152"/>
+<feGaussianBlur stdDeviation="120" result="effect1_foregroundBlur_0_155"/>
 </filter>
 </defs>
 </svg>

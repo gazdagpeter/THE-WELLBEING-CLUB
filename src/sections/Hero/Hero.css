@@ -128,25 +128,89 @@
 }
 
 .hero__scroll-line {
+  --scroll-line-h: 44px;
+  position: relative;
   width: 1px;
-  height: 44px;
-  background: var(--brand-bordo);
+  height: var(--scroll-line-h);
+  background: rgb(89 1 16 / 0.18);
 }
 
-/* ───────── Art board internals (936 × 892 Figma units) ───────── */
+/* the line draws itself downwards, then is erased from the top – on a loop */
+.hero__scroll-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--brand-bordo);
+  clip-path: inset(0 0 100% 0);
+  animation: hero-scroll-line 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+/* a small dot leads the drawing edge */
+.hero__scroll-line::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 0;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%;
+  background: var(--brand-bordo);
+  opacity: 0;
+  animation: hero-scroll-dot 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes hero-scroll-line {
+  0% {
+    clip-path: inset(0 0 100% 0);
+  }
+  45% {
+    clip-path: inset(0 0 0 0);
+  }
+  90%,
+  100% {
+    clip-path: inset(100% 0 0 0);
+  }
+}
+
+@keyframes hero-scroll-dot {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  45% {
+    transform: translateY(var(--scroll-line-h));
+    opacity: 1;
+  }
+  65%,
+  100% {
+    transform: translateY(var(--scroll-line-h));
+    opacity: 0;
+  }
+}
+
+.hero__scroll:hover .hero__scroll-line::after {
+  animation-duration: 1.4s;
+}
+
+/* ───────── Art board internals (804.96 × 744.92 Figma units) ───────── */
 
 .hero-art {
   position: relative;
   width: 100%;
-  aspect-ratio: 936 / 892;
+  aspect-ratio: 804.96 / 744.92;
 }
 
 .hero-art__photo {
   position: absolute;
-  left: 24.644%;
+  left: 23.666%;
   top: 0;
-  width: 58.405%;
-  height: 97.534%;
+  width: 67.912%;
+  height: 95.312%;
 }
 
 .hero-art__column {
@@ -168,9 +232,9 @@
 .hero-art__silhouette {
   position: absolute;
   left: 15.385%;
-  top: 33.892%;
+  top: 31.922%;
   width: 69.231%;
-  height: 58.036%;
+  height: 59.765%;
 }
 
 .hero-art__silhouette img {
@@ -191,9 +255,9 @@
 .hero-art__scatter {
   position: absolute;
   left: 0;
-  top: 17.749%;
+  top: 15.298%;
   width: 100%;
-  height: 82.251%;
+  height: 84.702%;
 }
 
 .hero-art__canvas {
@@ -210,9 +274,9 @@
 .hero-art__lines {
   position: absolute;
   left: 21.385%;
-  top: 31.794%;
+  top: 29.761%;
   width: 40.923%;
-  height: 22.924%;
+  height: 23.607%;
   pointer-events: none;
 }
 
@@ -240,22 +304,23 @@
   }
 }
 
-/* ───────── Desktop – Figma „01 Hero” (1920 × 1080) ───────── */
+/* ───────── Desktop – Figma „01 Hero” (1920 × 900) ───────── */
 @media (min-width: 1200px) {
   .hero {
-    min-height: max(100svh, 108rem);
+    min-height: 0;
+    height: 90rem;
   }
 
   .hero__glow--rose {
-    left: 58rem;
-    top: -9rem;
-    width: 163rem;
-    height: 143rem;
+    left: 60rem;
+    top: -15rem;
+    width: 158rem;
+    height: 130rem;
   }
 
   .hero__glow--powder {
     left: -52rem;
-    top: 54rem;
+    top: 38rem;
     width: 100rem;
     height: 100rem;
   }
@@ -263,25 +328,25 @@
   .hero__stage {
     position: absolute;
     inset: 0 0 auto;
-    height: 108rem;
+    height: 90rem;
     padding: 0;
     display: block;
   }
 
   .hero__art {
     position: absolute;
-    left: 89.6rem;
-    top: 13rem;
-    width: 93.6rem;
+    left: 93.616rem;
+    top: 11.2rem;
+    width: 80.496rem;
     margin: 0;
   }
 
   .hero__title {
     position: absolute;
     left: 10rem;
-    top: 16.8rem;
+    top: 15rem;
     width: 100rem;
-    height: 52rem;
+    height: 44rem;
   }
 
   .hero__title-line1,
@@ -292,22 +357,22 @@
   }
 
   .hero__title-line1 {
-    left: -0.8rem;
-    top: 4.4rem;
-    font-size: 22.8rem;
-    letter-spacing: -0.456rem;
+    left: -0.7rem;
+    top: 0;
+    font-size: 19rem;
+    letter-spacing: -0.38rem;
   }
 
   .hero__title-line2 {
-    left: 17rem;
-    top: 20rem;
-    font-size: 29rem;
+    left: 14.2rem;
+    top: 13rem;
+    font-size: 24.2rem;
   }
 
   .hero__intro {
     position: absolute;
     left: 10rem;
-    top: 71.6rem;
+    top: 59.8rem;
     width: 50rem;
     margin: 0;
     gap: 3.6rem;
@@ -325,7 +390,7 @@
   .hero__scroll {
     position: absolute;
     left: 50%;
-    top: 97.6rem;
+    top: 79.6rem;
     margin: 0;
     gap: 1.2rem;
     font-size: max(1.3rem, 11px);
@@ -333,6 +398,6 @@
   }
 
   .hero__scroll-line {
-    height: 4.4rem;
+    --scroll-line-h: max(4.4rem, 36px);
   }
 }
