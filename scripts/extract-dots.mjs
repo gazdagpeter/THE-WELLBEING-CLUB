@@ -120,6 +120,8 @@ write('heroDots.json', {
     width: Number(w),
     height: Number(h),
     mainColor: (path[1] + path[3]).match(/fill="([^"]+)"/)[1],
+    // the dot group carries its own opacity in Figma
+    mainOpacity: Number(svg.match(/<g [^>]*opacity="([\d.]+)"[^>]*clip-path/)?.[1] ?? 1),
     soft: [],
     bordo: dotsFromD(path[2]),
     scatter: dotsFromCircles(svg),

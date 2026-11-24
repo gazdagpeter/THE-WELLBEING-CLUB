@@ -7,8 +7,36 @@
   flex-direction: column;
   padding: 80px var(--page-gutter) 96px;
   overflow: clip;
-  background: var(--brand-bordo);
-  color: var(--brand-tort-feher);
+  background: var(--brand-tort-feher);
+  color: var(--brand-bordo);
+}
+
+.instructor__glow {
+  position: absolute;
+  left: -40%;
+  top: 30%;
+  width: 180%;
+  max-width: none;
+  height: auto;
+  pointer-events: none;
+}
+
+/* handwritten name – Figma: Ms Madi 140px, rotated 5° */
+.instructor__name {
+  position: relative;
+  z-index: 2;
+  order: 3;
+  align-self: flex-end;
+  margin-top: -40px;
+  font-family: var(--font-script);
+  font-size: clamp(56px, 15vw, 140px);
+  line-height: 0.85;
+  white-space: nowrap;
+  transform: rotate(5deg);
+}
+
+.instructor__name span {
+  display: block;
 }
 
 .instructor__figure {
@@ -66,7 +94,7 @@
   font-weight: 300;
   font-size: 18px;
   line-height: 1.6;
-  color: var(--brand-rozsas);
+  color: var(--text-sotet);
 }
 
 .instructor__text {
@@ -74,7 +102,7 @@
   max-width: 520px;
   font-size: 16px;
   line-height: 1.65;
-  opacity: 0.85;
+  color: var(--text-sotet);
 }
 
 /* Gomb – Szöveges, light on bordó */
@@ -84,6 +112,7 @@
   gap: 14px;
   margin-top: 36px;
   padding: 10px 0;
+  /* Figma: törtfehér underline on the light background */
   border-bottom: 1px solid var(--brand-tort-feher);
   font-weight: 500;
   font-size: 15px;
@@ -107,6 +136,27 @@
     display: block;
     height: 100rem;
     padding: 0;
+  }
+
+  .instructor__glow {
+    left: 50%;
+    top: -13rem;
+    width: 178rem;
+    height: 118rem;
+    transform: translateX(-50%);
+  }
+
+  .instructor__name {
+    position: absolute;
+    left: 132.9rem;
+    top: 33.7rem;
+    width: 46.2rem;
+    height: 27.57rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 14rem;
   }
 
   .instructor__figure {

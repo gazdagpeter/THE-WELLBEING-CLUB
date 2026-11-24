@@ -123,8 +123,7 @@ export function echoFigure(): FigureConfig {
   const particles: Particle[] = [];
   const { width } = echoDots;
   for (const [x, y, r] of echoDots.bordo) {
-    // group opacity 0.55 in Figma
-    particles.push({ x, y, r, color: echoDots.mainColor, alpha: 0.55, glow: false, delay: (x / width) * 0.8 + Math.random() * 0.25 });
+    particles.push({ x, y, r, color: echoDots.mainColor, alpha: echoDots.mainOpacity, glow: false, delay: (x / width) * 0.8 + Math.random() * 0.25 });
   }
   for (const [x, y, r, color, glow] of echoDots.scatter as Scatter) {
     particles.push({ x, y, r, color, alpha: 1, glow: glow === 1, delay: 0.5 + Math.random() * 0.5 });
