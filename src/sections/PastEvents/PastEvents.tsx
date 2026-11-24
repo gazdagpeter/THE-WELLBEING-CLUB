@@ -28,7 +28,7 @@ export default function PastEvents() {
           y: 0,
           scale: 1,
           ease: 'none',
-          scrollTrigger: { trigger: photo, start: 'top bottom', end: 'bottom bottom', scrub: 0.6 },
+          scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom bottom', scrub: 0.6 },
         },
       );
 
@@ -39,7 +39,8 @@ export default function PastEvents() {
         duration: 1.1,
         stagger: 0.12,
         ease: 'power3.out',
-        scrollTrigger: { trigger: photo, start: 'bottom bottom', toggleActions: 'play none none reverse' },
+        // triggered by the (untransformed) section, so the start point is always reachable
+        scrollTrigger: { trigger: root.current, start: 'bottom-=80 bottom', toggleActions: 'play none none reverse' },
       });
     },
     { scope: root, dependencies: [reducedMotion] },
