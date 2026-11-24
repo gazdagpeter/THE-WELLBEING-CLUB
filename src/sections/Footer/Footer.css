@@ -1,0 +1,197 @@
+/* ───────── 12 Lábléc – mobile first ───────── */
+.footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 88px var(--page-gutter) 40px;
+  overflow: clip;
+  background: var(--brand-bordo);
+  color: var(--brand-tort-feher);
+}
+
+.footer__claim {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 8vw, 56px);
+  line-height: 1.1;
+}
+
+.footer__claim span {
+  display: block;
+}
+
+.footer__cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 24px;
+}
+
+.footer__col-title {
+  margin-bottom: 14px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(24px, 6vw, 36px);
+  line-height: 1.2;
+  color: var(--brand-puder);
+}
+
+.footer__col p {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px 48px;
+}
+
+.footer__nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+}
+
+.footer__nav a {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 5.4vw, 28px);
+  line-height: 1.25;
+  transition: color 0.4s var(--ease-out);
+}
+
+.footer__nav a:hover {
+  color: var(--brand-puder);
+}
+
+.footer__lang {
+  display: flex;
+  gap: 24px;
+}
+
+.footer__lang a:not(.is-active) {
+  color: var(--brand-rozsas);
+}
+
+.footer__rule {
+  display: block;
+  height: 1px;
+  margin-top: -8px;
+  background: rgb(235 217 214 / 0.35);
+}
+
+.footer__logo {
+  width: 100%;
+  height: auto;
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 32px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--brand-rozsas);
+}
+
+.footer__legal {
+  display: flex;
+  gap: 32px;
+}
+
+.footer__credit {
+  color: var(--brand-tort-feher);
+  letter-spacing: 0.06em;
+}
+
+/* ───────── Desktop – Figma „12 Lábléc” (1920 × 1563) ───────── */
+@media (min-width: 1200px) {
+  .footer {
+    display: block;
+    height: 156.3rem;
+    padding: 0;
+  }
+
+  .footer__claim {
+    position: absolute;
+    left: 10rem;
+    top: 14rem;
+    font-size: 5.6rem;
+    letter-spacing: -0.028rem;
+  }
+
+  .footer__cols {
+    position: absolute;
+    inset: 15rem 0 auto 0;
+    display: block;
+  }
+
+  .footer__col {
+    position: absolute;
+    top: 0;
+  }
+
+  .footer__col:nth-child(1) { left: 80rem; }
+  .footer__col:nth-child(2) { left: 105rem; }
+  .footer__col:nth-child(3) { left: 132rem; }
+  .footer__col:nth-child(4) { left: 162rem; }
+
+  .footer__col-title {
+    margin-bottom: 1.8rem;
+    font-size: 3.6rem;
+  }
+
+  .footer__col p {
+    font-size: max(1.7rem, 12px);
+    white-space: nowrap;
+  }
+
+  .footer__nav {
+    position: absolute;
+    left: 10rem;
+    right: 10rem;
+    top: 44rem;
+  }
+
+  .footer__nav ul {
+    gap: 4.8rem;
+  }
+
+  .footer__nav a {
+    font-size: 2.8rem;
+  }
+
+  .footer__lang {
+    gap: 2.4rem;
+  }
+
+  .footer__rule {
+    position: absolute;
+    left: 10rem;
+    right: 10rem;
+    top: 52rem;
+    margin: 0;
+  }
+
+  .footer__logo {
+    position: absolute;
+    left: 10rem;
+    top: 60rem;
+    width: 172rem;
+    height: 82.1rem;
+  }
+
+  .footer__bottom {
+    position: absolute;
+    left: 10rem;
+    right: 10rem;
+    top: 149.1rem;
+    font-size: max(1.5rem, 11px);
+  }
+
+  .footer__legal {
+    gap: 4rem;
+  }
+}

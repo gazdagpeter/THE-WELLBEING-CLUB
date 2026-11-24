@@ -3,6 +3,7 @@ import heroDots from './heroDots.json';
 import teaserDots from './teaserDots.json';
 import balanceDots from './balanceDots.json';
 import echoDots from './echoDots.json';
+import motionDots from './motionDots.json';
 
 const BORDO = '#590110';
 
@@ -129,4 +130,18 @@ export function echoFigure(): FigureConfig {
     particles.push({ x, y, r, color, alpha: 1, glow: glow === 1, delay: 0.5 + Math.random() * 0.5 });
   }
   return { width: echoDots.width, height: echoDots.height, particles };
+}
+
+/* ───────── 10 GYIK – movement pose ───────── */
+
+export function motionFigure(): FigureConfig {
+  const particles: Particle[] = [];
+  const { width } = motionDots;
+  for (const [x, y, r] of motionDots.bordo) {
+    particles.push({ x, y, r, color: motionDots.mainColor, alpha: 1, glow: false, delay: (x / width) * 0.8 + Math.random() * 0.25 });
+  }
+  for (const [x, y, r, color, glow] of motionDots.scatter as Scatter) {
+    particles.push({ x, y, r, color, alpha: 1, glow: glow === 1, delay: 0.5 + Math.random() * 0.5 });
+  }
+  return { width: motionDots.width, height: motionDots.height, particles };
 }

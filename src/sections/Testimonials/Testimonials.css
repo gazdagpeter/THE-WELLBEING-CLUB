@@ -1,0 +1,140 @@
+/* ───────── 09 Rólunk mondták – mobile first ───────── */
+.testimonials {
+  position: relative;
+  z-index: 2;
+  padding: 88px var(--page-gutter) 96px;
+  overflow: clip;
+  background: var(--brand-bordo);
+  color: var(--brand-tort-feher);
+}
+
+.testimonials__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(32px, 8vw, 56px);
+  line-height: 1.1;
+  color: var(--brand-rozsas);
+}
+
+.testimonials__slide {
+  margin-top: 56px;
+}
+
+.testimonials__quote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 7.6vw, 72px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.testimonials__script {
+  font-family: var(--font-script);
+  font-size: 1.45em;
+  line-height: 1;
+  color: var(--brand-puder);
+}
+
+.testimonials__author {
+  margin-top: 40px;
+  font-family: var(--font-script);
+  font-size: clamp(44px, 11vw, 72px);
+  line-height: 1.2;
+  color: var(--brand-puder);
+}
+
+.testimonials__detail {
+  margin-top: 4px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--brand-rozsas);
+}
+
+.testimonials__nav {
+  display: flex;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.testimonials__btn {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 1.5px solid var(--brand-tort-feher);
+  border-radius: 50%;
+  background: transparent;
+  transition: transform 0.4s var(--ease-out);
+}
+
+.testimonials__btn img {
+  width: 28px;
+  height: 28px;
+}
+
+.testimonials__btn--next {
+  background: var(--brand-tort-feher);
+}
+
+.testimonials__btn:hover {
+  transform: scale(1.05);
+}
+
+/* ───────── Desktop – Figma (1920 × 1095) ───────── */
+@media (min-width: 1200px) {
+  .testimonials {
+    height: 109.5rem;
+    padding: 0;
+  }
+
+  .testimonials__title {
+    position: absolute;
+    left: 10rem;
+    top: 12rem;
+    font-size: 5.6rem;
+    letter-spacing: -0.028rem;
+  }
+
+  .testimonials__slide {
+    position: absolute;
+    left: 27rem;
+    top: 37.1rem;
+    width: 138rem;
+    margin: 0;
+  }
+
+  .testimonials__quote {
+    height: 35.3rem;
+    font-size: 7.2rem;
+    line-height: 1.05;
+    letter-spacing: -0.072rem;
+  }
+
+  .testimonials__author {
+    margin-top: 0;
+    font-size: 7.2rem;
+  }
+
+  .testimonials__detail {
+    margin-top: 0;
+    font-size: max(1.7rem, 13px);
+  }
+
+  .testimonials__nav {
+    position: absolute;
+    left: 149rem;
+    top: 72.4rem;
+    margin: 0;
+  }
+
+  .testimonials__btn {
+    width: 7.2rem;
+    height: 7.2rem;
+  }
+
+  .testimonials__btn img {
+    width: 3.2rem;
+    height: 3.2rem;
+  }
+}

@@ -1,0 +1,124 @@
+/* ───────── 11 Instagram és felhívás – mobile first ───────── */
+.insta {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 88px var(--page-gutter) 96px;
+  overflow: clip;
+  background: var(--brand-tort-feher);
+  color: var(--brand-bordo);
+}
+
+.insta__cta {
+  position: relative;
+  z-index: 1;
+  order: -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  text-align: center;
+}
+
+.insta__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(36px, 9.6vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.insta__title span {
+  display: block;
+  padding-bottom: 0.12em;
+}
+
+.insta__photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin: 56px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.insta__photo {
+  transform: rotate(var(--r));
+}
+
+.insta__photo:nth-child(even) {
+  margin-top: 28px;
+}
+
+.insta__inner {
+  aspect-ratio: var(--w) / var(--h);
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgb(89 0 15 / 0.12);
+}
+
+.insta__inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease-out);
+}
+
+.insta__photo:hover img {
+  transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+  .insta__photos {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ───────── Desktop – Figma (1920 × 1100) ───────── */
+@media (min-width: 1200px) {
+  .insta {
+    display: block;
+    height: 110rem;
+    padding: 0;
+  }
+
+  .insta__photos {
+    position: absolute;
+    inset: 0;
+    display: block;
+    margin: 0;
+  }
+
+  .insta__photo {
+    position: absolute;
+    left: calc(var(--x) * 0.1rem);
+    top: calc(var(--y) * 0.1rem);
+    width: calc(var(--w) * 0.1rem);
+    margin: 0 !important;
+    transform: translate(-50%, -50%) rotate(var(--r));
+  }
+
+  .insta__inner {
+    height: calc(var(--h) * 0.1rem);
+    aspect-ratio: auto;
+    border-radius: 2.4rem;
+  }
+
+  .insta__cta {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 42.4rem;
+    gap: 4.8rem;
+  }
+
+  .insta__title {
+    font-size: 9.6rem;
+    letter-spacing: -0.096rem;
+  }
+
+  .insta__title span {
+    padding-bottom: 0;
+  }
+}

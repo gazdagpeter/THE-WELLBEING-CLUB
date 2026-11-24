@@ -127,3 +127,19 @@ write('heroDots.json', {
     scatter: dotsFromCircles(svg),
   });
 }
+
+/** 10 GYIK – movement pose: one bordó dot path + loose circles. */
+{
+  const svg = read('faq/motion-figure.svg');
+  const [, w, h] = svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+  const path = svg.match(/<path ([^>]*?)\sd="([^"]+)"([^>]*)\/>/);
+  write('motionDots.json', {
+    width: Number(w),
+    height: Number(h),
+    mainColor: (path[1] + path[3]).match(/fill="([^"]+)"/)[1],
+    mainOpacity: 1,
+    soft: [],
+    bordo: dotsFromD(path[2]),
+    scatter: dotsFromCircles(svg),
+  });
+}

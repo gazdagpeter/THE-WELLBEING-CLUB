@@ -1,0 +1,288 @@
+/* ───────── 08 Árlista – mobile first ───────── */
+.pricing {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 88px var(--page-gutter) 96px;
+  background: var(--brand-tort-feher);
+  color: var(--brand-bordo);
+}
+
+.pricing__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(36px, 9vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.pricing__title span {
+  display: block;
+}
+
+.pricing__intro {
+  max-width: 560px;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-sotet);
+}
+
+.pricing__group {
+  margin-top: 24px;
+}
+
+.pricing__subtitle,
+.pricing__panel-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 7vw, 36px);
+  line-height: 1.2;
+}
+
+.pricing__list {
+  margin-top: 16px;
+}
+
+.pricing__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+}
+
+.pricing__line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--brand-rozsas);
+}
+
+.pricing__label {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 6vw, 36px);
+  line-height: 1.2;
+  color: var(--text-sotet);
+}
+
+.pricing__price {
+  font-family: var(--font-display);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.pricing__row--1 .pricing__price {
+  font-size: clamp(48px, 13vw, 84px);
+}
+
+.pricing__row--2 .pricing__price {
+  font-size: clamp(56px, 15vw, 100px);
+}
+
+.pricing__row--3 .pricing__price {
+  font-size: clamp(64px, 17vw, 118px);
+}
+
+.pricing__group-cta {
+  margin-top: 28px;
+}
+
+/* private panel */
+.pricing__panel {
+  margin-top: 24px;
+  padding: 40px 28px 44px;
+  border-radius: 36px;
+  background: var(--brand-bordo);
+  color: var(--brand-tort-feher);
+}
+
+.pricing__circles {
+  position: relative;
+  height: 280px;
+  margin-top: 24px;
+}
+
+.pricing__circle {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 62%;
+  aspect-ratio: 1;
+}
+
+.pricing__circle--1 {
+  left: 0;
+  color: var(--brand-bordo);
+}
+
+.pricing__circle--2 {
+  right: 0;
+  top: 18%;
+  color: var(--brand-tort-feher);
+}
+
+.pricing__circle img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.pricing__circle-price,
+.pricing__circle-label {
+  position: relative;
+}
+
+.pricing__circle-price {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 11vw, 72px);
+  line-height: 1.05;
+}
+
+.pricing__circle-label {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.pricing__panel-text {
+  margin-top: 64px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--brand-rozsas);
+}
+
+.pricing__panel-cta {
+  margin-top: 28px;
+}
+
+/* ───────── Desktop – Figma „08 Árlista” (1920 × 1211) ───────── */
+@media (min-width: 1200px) {
+  .pricing {
+    display: block;
+    height: 121.1rem;
+    padding: 0;
+  }
+
+  .pricing__title {
+    position: absolute;
+    left: 10rem;
+    top: 12rem;
+    font-size: 7.2rem;
+    letter-spacing: -0.072rem;
+  }
+
+  .pricing__intro {
+    position: absolute;
+    left: 126rem;
+    top: 20rem;
+    width: 56rem;
+    max-width: none;
+    font-size: max(2rem, 15px);
+  }
+
+  .pricing__group {
+    position: absolute;
+    left: 10rem;
+    top: 44rem;
+    width: 88rem;
+    margin: 0;
+  }
+
+  .pricing__subtitle,
+  .pricing__panel-title {
+    font-size: 3.6rem;
+  }
+
+  .pricing__list {
+    margin-top: 6.9rem;
+  }
+
+  .pricing__row {
+    height: 15rem;
+    padding: 0;
+  }
+
+  .pricing__row--1 {
+    height: 11.8rem;
+  }
+
+  .pricing__label {
+    font-size: 3.6rem;
+  }
+
+  .pricing__row--1 .pricing__price {
+    font-size: 8.4rem;
+  }
+
+  .pricing__row--2 .pricing__price {
+    font-size: 10rem;
+  }
+
+  .pricing__row--3 .pricing__price {
+    font-size: 11.8rem;
+  }
+
+  .pricing__group-cta {
+    margin-top: 5.6rem;
+  }
+
+  .pricing__panel {
+    position: absolute;
+    left: 112rem;
+    top: 38rem;
+    width: 70rem;
+    height: 71.1rem;
+    margin: 0;
+    padding: 6.4rem 7.2rem 0;
+    border-radius: 4.8rem;
+  }
+
+  .pricing__circles {
+    width: 47rem;
+    height: 32rem;
+    margin: 4rem 0 0 4.3rem;
+  }
+
+  .pricing__circle {
+    width: 27rem;
+  }
+
+  .pricing__circle--1 {
+    left: 0;
+  }
+
+  .pricing__circle--2 {
+    left: 20rem;
+    right: auto;
+    top: 5rem;
+  }
+
+  .pricing__circle-price {
+    font-size: 7.2rem;
+  }
+
+  .pricing__circle-label {
+    font-size: max(1.7rem, 12px);
+  }
+
+  .pricing__panel-text {
+    margin-top: 4rem;
+    width: 55.6rem;
+    font-size: max(1.7rem, 13px);
+  }
+
+  .pricing__panel-cta {
+    margin-top: 2.8rem;
+  }
+}
