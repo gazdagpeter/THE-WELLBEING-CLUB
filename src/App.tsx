@@ -4,6 +4,7 @@ import Practices from '@/sections/Practices/Practices';
 import Events from '@/sections/Events/Events';
 import PastEvents from '@/sections/PastEvents/PastEvents';
 import PrivateEvents from '@/sections/PrivateEvents/PrivateEvents';
+import Instructor from '@/sections/Instructor/Instructor';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Events />
       <PastEvents />
       <PrivateEvents />
+      <Instructor />
     </main>
   );
 }

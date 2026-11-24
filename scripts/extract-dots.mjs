@@ -110,3 +110,18 @@ write('heroDots.json', {
     scatter: dotsFromCircles(svg),
   });
 }
+
+/** 08 Az oktató – „echo” pose behind the photo: one light dot path + loose circles. */
+{
+  const svg = read('instructor/echo-figure.svg');
+  const [, w, h] = svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+  const path = svg.match(/<path ([^>]*?)\sd="([^"]+)"([^>]*)\/>/);
+  write('echoDots.json', {
+    width: Number(w),
+    height: Number(h),
+    mainColor: (path[1] + path[3]).match(/fill="([^"]+)"/)[1],
+    soft: [],
+    bordo: dotsFromD(path[2]),
+    scatter: dotsFromCircles(svg),
+  });
+}

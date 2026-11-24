@@ -1,0 +1,162 @@
+/* ───────── 08 Az oktató – mobile first ───────── */
+
+.instructor {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 80px var(--page-gutter) 96px;
+  overflow: clip;
+  background: var(--brand-bordo);
+  color: var(--brand-tort-feher);
+}
+
+.instructor__figure {
+  position: relative;
+  order: 2;
+  width: 130%;
+  margin: 24px -10% 0 -20%;
+}
+
+.instructor__figure-canvas {
+  position: relative;
+  aspect-ratio: 1475.68 / 970.213;
+}
+
+.instructor__figure-canvas img,
+.instructor__figure-canvas canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* cut-out photo sits on top of the dots */
+.instructor__photo {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 96px;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.instructor__copy {
+  position: relative;
+  z-index: 2;
+  order: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.instructor__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(36px, 9vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.instructor__lead {
+  margin-top: 28px;
+  max-width: 560px;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--brand-rozsas);
+}
+
+.instructor__text {
+  margin-top: 24px;
+  max-width: 520px;
+  font-size: 16px;
+  line-height: 1.65;
+  opacity: 0.85;
+}
+
+/* Gomb – Szöveges, light on bordó */
+.instructor__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 36px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--brand-tort-feher);
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.instructor__cta img {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.4s var(--ease-out);
+}
+
+.instructor__cta:hover img {
+  transform: translateX(4px);
+}
+
+/* ───────── Desktop – Figma „08 Az oktató” (1920 × 1000) ───────── */
+@media (min-width: 1200px) {
+  .instructor {
+    display: block;
+    height: 100rem;
+    padding: 0;
+  }
+
+  .instructor__figure {
+    position: absolute;
+    left: 54.23rem;
+    top: -4.27rem;
+    width: 147.568rem;
+    margin: 0;
+  }
+
+  .instructor__photo {
+    left: 76rem;
+    top: 20.7rem;
+    right: auto;
+    bottom: auto;
+    width: 110rem;
+    height: 73.3rem;
+    object-fit: cover;
+  }
+
+  .instructor__copy {
+    position: absolute;
+    left: 10rem;
+    top: 23rem;
+    width: 66rem;
+  }
+
+  .instructor__title {
+    font-size: 7.2rem;
+    letter-spacing: -0.072rem;
+  }
+
+  .instructor__lead {
+    margin-top: 4rem;
+    width: 56rem;
+    max-width: none;
+    font-size: max(2rem, 15px);
+  }
+
+  .instructor__text {
+    margin-top: 2.8rem;
+    width: 52rem;
+    max-width: none;
+    font-size: max(1.7rem, 13px);
+  }
+
+  .instructor__cta {
+    margin-top: 4.8rem;
+    gap: 1.4rem;
+    padding: 1rem 0;
+    font-size: max(1.6rem, 13px);
+  }
+}
