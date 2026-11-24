@@ -65,6 +65,12 @@ button {
   outline-offset: 4px;
 }
 
+.page {
+  position: relative;
+  /* glows reach past the page edges – clip without creating a scroll container */
+  overflow: clip;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -75,6 +81,20 @@ button {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* handwriting reveal for the script font – GSAP animates --reveal (-10% → 115%) */
+.write-reveal {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    #000 calc(var(--reveal, 115%) - 12%),
+    transparent var(--reveal, 115%)
+  );
+  mask-image: linear-gradient(
+    90deg,
+    #000 calc(var(--reveal, 115%) - 12%),
+    transparent var(--reveal, 115%)
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {

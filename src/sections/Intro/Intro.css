@@ -1,0 +1,282 @@
+/* ───────── 02 Bemutatkozás – mobile first ───────── */
+
+.intro {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 48px var(--page-gutter) 120px;
+  color: var(--brand-bordo);
+}
+
+/* glows – they reach up into the hero for a soft transition */
+.intro__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.intro__glow {
+  position: absolute;
+  max-width: none;
+  height: auto;
+}
+
+.intro__glow--transition {
+  left: -40%;
+  top: -260px;
+  width: 200%;
+}
+
+.intro__glow--transition-powder {
+  left: -60%;
+  top: -240px;
+  width: 140%;
+}
+
+.intro__glow--rose {
+  left: -60%;
+  bottom: 18%;
+  width: 220%;
+}
+
+.intro__glow--closing {
+  left: -60%;
+  bottom: -10%;
+  width: 220%;
+}
+
+/* the photo that grows out of the hero column */
+.intro__fly {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  overflow: hidden;
+  visibility: hidden;
+  will-change: transform, width, height;
+  /* keeps the rounded clip while transforming (Safari) */
+  isolation: isolate;
+}
+
+.intro__fly img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: none;
+}
+
+.intro__photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 32px;
+  overflow: hidden;
+}
+
+.intro__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* texts */
+.intro__text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 56px;
+}
+
+.intro__heading {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(30px, 7.4vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+.intro__body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 547px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-sotet);
+}
+
+.intro__cta {
+  margin-top: 8px;
+}
+
+/* teaser silhouette */
+.intro__figure {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 640px);
+  margin: 96px auto 0;
+}
+
+.intro__figure-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 830.638 / 532.991;
+}
+
+.intro__figure-canvas img,
+.intro__figure-canvas canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* closing thought */
+.intro__closing {
+  position: relative;
+  z-index: 1;
+  margin-top: 40px;
+  text-align: center;
+}
+
+.intro__closing-line1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 8vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.intro__closing-line2 {
+  margin-top: 12px;
+  font-family: var(--font-script);
+  font-size: clamp(42px, 10.5vw, 84px);
+  line-height: 1.2;
+}
+
+/* ───────── Tablet ───────── */
+@media (min-width: 768px) {
+  .intro {
+    padding-top: 64px;
+  }
+
+  .intro__photo {
+    aspect-ratio: 16 / 9;
+    border-radius: 40px;
+  }
+
+  .intro__body {
+    font-size: 17px;
+  }
+}
+
+/* ───────── Desktop – Figma „02 Bemutatkozás” (1920 × 2800) ───────── */
+@media (min-width: 1200px) {
+  .intro {
+    display: block;
+    height: 280rem;
+    padding: 0;
+  }
+
+  .intro__glow--transition {
+    left: 36rem;
+    top: -54rem;
+    width: 198rem;
+    height: 100rem;
+  }
+
+  .intro__glow--transition-powder {
+    left: -47rem;
+    top: -48rem;
+    width: 114rem;
+    height: 94rem;
+  }
+
+  .intro__glow--rose {
+    left: 17rem;
+    top: 133.75rem;
+    bottom: auto;
+    width: 158rem;
+    height: 118rem;
+  }
+
+  .intro__glow--closing {
+    left: 0;
+    top: 174rem;
+    bottom: auto;
+    width: 192rem;
+    height: 122rem;
+  }
+
+  .intro__photo {
+    position: absolute;
+    left: 10rem;
+    top: 8rem;
+    width: 172rem;
+    height: 80rem;
+    aspect-ratio: auto;
+    border-radius: 5.333rem;
+  }
+
+  .intro__text {
+    position: absolute;
+    left: 10rem;
+    top: 106.5rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 19.3rem;
+    margin: 0;
+  }
+
+  .intro__heading {
+    flex: none;
+    width: 98rem;
+    font-size: 5.6rem;
+    letter-spacing: -0.028rem;
+    text-wrap: wrap;
+  }
+
+  .intro__body {
+    flex: none;
+    width: 54.7rem;
+    max-width: none;
+    gap: 2.4rem;
+    font-size: max(1.7rem, 14px);
+  }
+
+  .intro__cta {
+    margin-top: 0.8rem;
+  }
+
+  .intro__figure {
+    position: absolute;
+    left: 54.075rem;
+    top: 159.188rem;
+    width: 83.0638rem;
+    margin: 0;
+  }
+
+  .intro__closing {
+    position: absolute;
+    left: 10rem;
+    top: 221.3rem;
+    width: 172rem;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .intro__closing-line1 {
+    font-size: 9.6rem;
+    letter-spacing: -0.096rem;
+    text-wrap: nowrap;
+  }
+
+  .intro__closing-line2 {
+    /* Figma: second line starts 125px below the first */
+    margin-top: 2.42rem;
+    font-size: 12.4rem;
+  }
+}

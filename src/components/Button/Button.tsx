@@ -4,8 +4,8 @@ import arrowBordo from '@/assets/hero/arrow-bordo.svg';
 import './Button.css';
 
 type ButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
-  /** Figma „Gomb” component variants: Elsődleges = primary, Szöveges = text */
-  variant?: 'primary' | 'text';
+  /** Figma „Gomb” variants: Elsődleges = primary, Másodlagos = secondary, Szöveges = text */
+  variant?: 'primary' | 'secondary' | 'text';
 };
 
 export function Button({ variant = 'primary', className, children, ...rest }: ButtonProps) {

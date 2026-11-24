@@ -36,6 +36,17 @@
   background: var(--text-sotet);
 }
 
+.btn--secondary {
+  padding: 17px 26px 17px 30px;
+  border-radius: 999px;
+  background: var(--brand-puder);
+  color: var(--brand-bordo);
+}
+
+.btn--secondary:hover {
+  background: var(--brand-rozsas);
+}
+
 .btn--text {
   padding: 10px 0;
   border-bottom: 1px solid var(--brand-bordo);
@@ -53,7 +64,8 @@
     height: max(1.8rem, 14px);
   }
 
-  .btn--primary {
+  .btn--primary,
+  .btn--secondary {
     padding: 1.9rem 2.8rem 1.9rem 3.4rem;
   }
 

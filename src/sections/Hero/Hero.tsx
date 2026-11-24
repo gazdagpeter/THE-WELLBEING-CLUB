@@ -5,7 +5,7 @@ import { Button } from '@/components/Button/Button';
 import { Header } from '@/components/Header/Header';
 import { heroContent } from '@/content/hero';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { gsap, useGSAP } from '@/lib/gsap';
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { HeroArt, type HeroArtHandle } from './HeroArt';
 import './Hero.css';
 
@@ -60,6 +60,22 @@ export default function Hero() {
         3.1,
       );
       tl.from(q('[data-anim="fade"]'), { autoAlpha: 0, y: 20, duration: 1.2, stagger: 0.12 }, 3.4);
+
+      // 5 · scrolling away: the dot silhouette breaks up and fades
+      //     while the photo column grows into the next section
+      const disperse = gsap.timeline({
+        scrollTrigger: {
+          trigger: root.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.8,
+        },
+      });
+      if (figure) disperse.fromTo(figure, { disperse: 0 }, { disperse: 1, ease: 'none' }, 0);
+      disperse.to(q('[data-disperse]'), { autoAlpha: 0, ease: 'power1.in' }, 0);
+
+      // fonts change the layout → recalculate scroll positions
+      document.fonts?.ready.then(() => ScrollTrigger.refresh());
     },
     { scope: root, dependencies: [animated] },
   );
@@ -84,7 +100,7 @@ export default function Hero() {
           <span className="hero__title-line1" data-anim="title-fade">
             {c.titleLine1}
           </span>{' '}
-          <span className="hero__title-line2" data-anim="title-write">
+          <span className="hero__title-line2 write-reveal" data-anim="title-write">
             {c.titleLine2}
           </span>
         </h1>

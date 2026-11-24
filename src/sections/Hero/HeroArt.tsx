@@ -1,24 +1,13 @@
-import { forwardRef, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import photo from '@/assets/hero/studio-photo.webp';
 import dotsSoft from '@/assets/hero/dots-soft.svg';
 import dotsBordo from '@/assets/hero/dots-bordo.svg';
 import dotsScatter from '@/assets/hero/dots-scatter.svg';
 import connectLines from '@/assets/hero/connect-lines.svg';
-import { gsap } from '@/lib/gsap';
-import { DotFigure } from '@/three/DotFigure';
-
-/**
- * The four rounded photo columns („Stúdiófotó – lamellák”) in Figma units,
- * relative to the 546.667 × 710 photo frame.
- */
-const PHOTO = { w: 546.667, h: 710 };
-const COLUMNS = [
-  { x: 0, y: 63, h: 590 },
-  { x: 146.667, y: 0, h: 710 },
-  { x: 293.333, y: 93, h: 535 },
-  { x: 440, y: 150, h: 538 },
-];
-const COLUMN_W = 106.667;
+import { useDotFigure } from '@/hooks/useDotFigure';
+import type { DotFigure } from '@/three/DotFigure';
+import { heroFigure } from '@/three/figures';
+import { COLUMNS, COLUMN_W, PHOTO, TRANSITION_COLUMN } from './heroGeometry';
 
 export type HeroArtHandle = {
   /** Drives the particle formation, 0 → 1. Null when WebGL is not used. */
@@ -33,8 +22,7 @@ const pct = (value: number, total: number) => `${(value / total) * 100}%`;
 
 export const HeroArt = forwardRef<HeroArtHandle, HeroArtProps>(function HeroArt({ animated }, ref) {
   const canvasHost = useRef<HTMLDivElement>(null);
-  const figureRef = useRef<DotFigure | null>(null);
-  const [webgl, setWebgl] = useState(false);
+  const { figure: figureRef, webgl } = useDotFigure(canvasHost, heroFigure, animated);
 
   useImperativeHandle(ref, () => ({
     get figure() {
@@ -42,30 +30,15 @@ export const HeroArt = forwardRef<HeroArtHandle, HeroArtProps>(function HeroArt(
     },
   }));
 
-  useLayoutEffect(() => {
-    if (!animated || !canvasHost.current || !DotFigure.isSupported()) {
-      setWebgl(false);
-      return;
-    }
-    const figure = new DotFigure(canvasHost.current);
-    figureRef.current = figure;
-    gsap.ticker.add(figure.tick);
-    setWebgl(true);
-    return () => {
-      gsap.ticker.remove(figure.tick);
-      figure.dispose();
-      figureRef.current = null;
-    };
-  }, [animated]);
-
   return (
     <div className="hero-art" aria-hidden="true">
-      <div className="hero-art__photo">
-        {COLUMNS.map((col) => (
+      <div className="hero-art__photo" data-hero-photo>
+        {COLUMNS.map((col, i) => (
           <div
             key={col.x}
             className="hero-art__column"
             data-anim="column"
+            data-transition-column={i === TRANSITION_COLUMN ? '' : undefined}
             style={{
               left: pct(col.x, PHOTO.w),
               top: pct(col.y, PHOTO.h),
@@ -101,14 +74,9 @@ export const HeroArt = forwardRef<HeroArtHandle, HeroArtProps>(function HeroArt(
 
       <div ref={canvasHost} className="hero-art__canvas" />
 
-      <img
-        className="hero-art__lines"
-        src={connectLines}
-        alt=""
-        width={329.414}
-        height={175.853}
-        data-anim="lines"
-      />
+      <div className="hero-art__lines" data-disperse>
+        <img src={connectLines} alt="" width={329.414} height={175.853} data-anim="lines" />
+      </div>
     </div>
   );
 });

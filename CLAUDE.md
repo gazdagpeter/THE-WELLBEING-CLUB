@@ -44,7 +44,7 @@ Irányelvek a Claude Code (és minden fejlesztő) számára a **The Wellbeing Cl
 - `npm run lint` – ESLint
 - `npm run typecheck` – TypeScript ellenőrzés
 
-- `node scripts/extract-hero-dots.mjs` – a hero pontfigura koordinátáinak újragenerálása a Figma SVG-kből (`src/three/heroDots.json`)
+- `node scripts/extract-dots.mjs` – a pontfigurák koordinátáinak újragenerálása a Figma SVG-kből (`src/three/*Dots.json`)
 
 Minden commit előtt a `npm run lint` és a `npm run build` legyen hibamentes.
 

@@ -1,9 +1,11 @@
 import Hero from '@/sections/Hero/Hero';
+import Intro from '@/sections/Intro/Intro';
 
 function App() {
   return (
-    <main>
+    <main className="page">
       <Hero />
+      <Intro />
     </main>
   );
 }

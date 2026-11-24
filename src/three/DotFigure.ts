@@ -10,18 +10,7 @@ import {
   ShaderMaterial,
   WebGLRenderer,
 } from 'three';
-import dots from './heroDots.json';
 
-/** Art board of the hero figure in Figma units (see Hero.css). */
-export const ART_WIDTH = 804.96;
-export const ART_HEIGHT = 744.92;
-
-/** Offsets of the dot layers inside the art board (Figma). */
-const SILHOUETTE_OFFSET = { x: 123.84, y: 237.795 };
-const SCATTER_OFFSET = { x: 0, y: 113.955 };
-const SILHOUETTE_SIZE = { w: 557.28, h: 445.205 };
-
-const BORDO = '#590110';
 /** Raw sRGB components – the shader writes them straight to the sRGB canvas. */
 function srgb(hex: string): [number, number, number] {
   const out = { r: 0, g: 0, b: 0 };
@@ -31,13 +20,25 @@ function srgb(hex: string): [number, number, number] {
 
 const GLOW = srgb('#d8b4b8');
 
-type Particle = {
+export type Particle = {
   x: number;
   y: number;
   r: number;
   color: string;
+  /** 0–1, e.g. the 40 % „lágy réteg” */
+  alpha: number;
   glow: boolean;
+  /** formation order, 0 (first) – 1 (last) */
   delay: number;
+};
+
+export type FigureConfig = {
+  /** art board size in Figma units – the canvas covers this box */
+  width: number;
+  height: number;
+  particles: Particle[];
+  /** cursor influence radius in art units */
+  mouseRadius?: number;
 };
 
 const vertexShader = /* glsl */ `
@@ -47,8 +48,10 @@ const vertexShader = /* glsl */ `
   attribute float aGlow;
   attribute float aSeed;
   attribute vec3 aColor;
+  attribute float aAlpha;
 
   uniform float uProgress;
+  uniform float uDisperse;
   uniform float uTime;
   uniform float uPxScale;
   uniform vec2 uMouse;
@@ -73,6 +76,12 @@ const vertexShader = /* glsl */ `
     float idle = e * 0.9;
     p += vec2(sin(uTime * 0.7 + aSeed * 6.2831), cos(uTime * 0.6 + aSeed * 12.566)) * idle;
 
+    // dispersal: the figure breaks up into a drifting cloud and fades away
+    float seedAngle = aSeed * 43.98;
+    vec2 away = vec2(cos(seedAngle), sin(seedAngle) * 0.8 - 0.35);
+    float dispEase = uDisperse * uDisperse * (3.0 - 2.0 * uDisperse);
+    p += away * dispEase * (90.0 + aSeed * 320.0);
+
     // pointer interaction: dots are pushed away from the cursor and spring back
     vec2 d = p - uMouse;
     float dist = length(d);
@@ -91,7 +100,7 @@ const vertexShader = /* glsl */ `
     gl_PointSize = sizePx;
 
     vColor = aColor;
-    vAlpha = smoothstep(0.0, 0.35, t);
+    vAlpha = smoothstep(0.0, 0.35, t) * aAlpha * (1.0 - smoothstep(0.15, 0.95, uDisperse));
     vGlow = aGlow;
     vCore = aRadius / halo;
     vPointPx = sizePx;
@@ -128,49 +137,16 @@ const fragmentShader = /* glsl */ `
   }
 `;
 
-function buildParticles(): Particle[] {
-  const list: Particle[] = [];
-
-  const silhouette = (layer: number[][]) => {
-    for (const [x, y, r] of layer) {
-      // sweep from the raised arm (top-left) towards the knees (bottom-right)
-      const sweep = (x / SILHOUETTE_SIZE.w) * 0.55 + (y / SILHOUETTE_SIZE.h) * 0.3;
-      list.push({
-        x: x + SILHOUETTE_OFFSET.x,
-        y: y + SILHOUETTE_OFFSET.y,
-        r,
-        color: BORDO,
-        glow: false,
-        delay: sweep * 0.85 + Math.random() * 0.25,
-      });
-    }
-  };
-
-  silhouette(dots.soft);
-  silhouette(dots.bordo);
-
-  for (const [x, y, r, color, glow] of dots.scatter as [number, number, number, string, number][]) {
-    list.push({
-      x: x + SCATTER_OFFSET.x,
-      y: y + SCATTER_OFFSET.y,
-      r,
-      color,
-      glow: glow === 1,
-      delay: 0.55 + Math.random() * 0.45,
-    });
-  }
-
-  return list;
-}
-
 /**
- * Hero dot figure: thousands of dots assemble into the silhouette
- * and react to the pointer (repel + spring back).
+ * Dot figure: thousands of dots assemble into a silhouette,
+ * react to the pointer (repel + spring back) and can disperse.
  */
 export class DotFigure {
   private renderer: WebGLRenderer;
   private scene = new Scene();
-  private camera = new OrthographicCamera(0, ART_WIDTH, 0, ART_HEIGHT, -1, 1);
+  private camera: OrthographicCamera;
+  private width: number;
+  private height: number;
   private material: ShaderMaterial;
   private geometry: BufferGeometry;
   private resizeObserver: ResizeObserver;
@@ -182,15 +158,21 @@ export class DotFigure {
 
   /** Formation progress 0 → 1 (animate with GSAP). */
   progress = 0;
+  /** Dispersal 0 → 1 (animate with GSAP). */
+  disperse = 0;
+  private renderedDisperse = 0;
 
-  constructor(container: HTMLElement) {
+  constructor(container: HTMLElement, config: FigureConfig) {
     this.container = container;
+    this.width = config.width;
+    this.height = config.height;
+    this.camera = new OrthographicCamera(0, config.width, 0, config.height, -1, 1);
     this.renderer = new WebGLRenderer({ alpha: true, antialias: false, powerPreference: 'high-performance' });
     this.renderer.setClearColor(0x000000, 0);
     this.renderer.domElement.setAttribute('aria-hidden', 'true');
     container.appendChild(this.renderer.domElement);
 
-    const particles = buildParticles();
+    const { particles } = config;
     const count = particles.length;
     const position = new Float32Array(count * 3);
     const start = new Float32Array(count * 2);
@@ -198,6 +180,7 @@ export class DotFigure {
     const delay = new Float32Array(count);
     const glow = new Float32Array(count);
     const seed = new Float32Array(count);
+    const alpha = new Float32Array(count);
     const color = new Float32Array(count * 3);
 
     particles.forEach((p, i) => {
@@ -210,6 +193,7 @@ export class DotFigure {
       delay[i] = p.delay;
       glow[i] = p.glow ? 1 : 0;
       seed[i] = Math.random();
+      alpha[i] = p.alpha;
       color.set(srgb(p.color), i * 3);
     });
 
@@ -221,6 +205,7 @@ export class DotFigure {
     this.geometry.setAttribute('aGlow', new BufferAttribute(glow, 1));
     this.geometry.setAttribute('aSeed', new BufferAttribute(seed, 1));
     this.geometry.setAttribute('aColor', new BufferAttribute(color, 3));
+    this.geometry.setAttribute('aAlpha', new BufferAttribute(alpha, 1));
 
     this.material = new ShaderMaterial({
       vertexShader,
@@ -231,11 +216,12 @@ export class DotFigure {
       blending: NormalBlending,
       uniforms: {
         uProgress: { value: 0 },
+        uDisperse: { value: 0 },
         uTime: { value: 0 },
         uPxScale: { value: 1 },
         uMouse: { value: [-9999, -9999] },
         uMouseStrength: { value: 0 },
-        uMouseRadius: { value: 112 },
+        uMouseRadius: { value: config.mouseRadius ?? 112 },
         uGlowColor: { value: GLOW },
         uMinPx: { value: 2 },
       },
@@ -274,16 +260,16 @@ export class DotFigure {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     this.renderer.setPixelRatio(dpr);
     this.renderer.setSize(w, h);
-    this.material.uniforms.uPxScale.value = (w / ART_WIDTH) * dpr;
+    this.material.uniforms.uPxScale.value = (w / this.width) * dpr;
     this.material.uniforms.uMinPx.value = 2.2 * dpr;
   }
 
   private onPointerMove = (e: PointerEvent) => {
     if (e.pointerType !== 'mouse') return;
     const rect = this.container.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * ART_WIDTH;
-    const y = ((e.clientY - rect.top) / rect.height) * ART_HEIGHT;
-    const inside = x > -80 && x < ART_WIDTH + 80 && y > -80 && y < ART_HEIGHT + 80;
+    const x = ((e.clientX - rect.left) / rect.width) * this.width;
+    const y = ((e.clientY - rect.top) / rect.height) * this.height;
+    const inside = x > -80 && x < this.width + 80 && y > -80 && y < this.height + 80;
     this.mouseTarget.x = x;
     this.mouseTarget.y = y;
     this.mouseTarget.strength = inside ? 1 : 0;
@@ -299,7 +285,9 @@ export class DotFigure {
 
   /** Call every frame (hooked to gsap.ticker). */
   tick = (time: number) => {
-    if (!this.visible) return;
+    // fully dispersed & already drawn that way → nothing to render
+    if (!this.visible || (this.disperse >= 1 && this.renderedDisperse >= 1)) return;
+    this.renderedDisperse = this.disperse;
     const u = this.material.uniforms;
     // eased follow → the displaced dots trail the cursor softly
     this.mouse.x += (this.mouseTarget.x - this.mouse.x) * 0.12;
@@ -307,6 +295,7 @@ export class DotFigure {
     u.uMouse.value = [this.mouse.x, this.mouse.y];
     u.uMouseStrength.value += (this.mouseTarget.strength - u.uMouseStrength.value) * 0.06;
     u.uProgress.value = this.progress;
+    u.uDisperse.value = this.disperse;
     u.uTime.value = time;
     this.renderer.render(this.scene, this.camera);
   };
