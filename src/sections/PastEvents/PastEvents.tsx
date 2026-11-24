@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import navPrev from '@/assets/past/nav-prev.svg';
 import navNext from '@/assets/past/nav-next.svg';
 import { Button } from '@/components/Button/Button';
@@ -12,7 +12,9 @@ export default function PastEvents() {
   const root = useRef<HTMLElement>(null);
   const reducedMotion = usePrefersReducedMotion();
   const c = pastEventsContent;
-  const item = c.items[0];
+  const [current, setCurrent] = useState(0);
+  const count = c.items.length;
+  const go = (dir: 1 | -1) => setCurrent((i) => (i + dir + count) % count);
 
   useGSAP(
     () => {
@@ -58,24 +60,32 @@ export default function PastEvents() {
       </div>
 
       <div className="past__photo">
-        <img src={item.image} alt={item.imageAlt} loading="lazy" />
+        {/* slides cross-fade */}
+        {c.items.map((it, i) => (
+          <img
+            key={it.title}
+            className={`past__img${i === current ? ' is-current' : ''}`}
+            src={it.image}
+            alt={i === current ? it.imageAlt : ''}
+            aria-hidden={i !== current}
+            loading="lazy"
+          />
+        ))}
         <div className="past__shade" aria-hidden="true" />
-        <div className="past__info">
-          <h3 className="past__name" data-past-fade>
-            {item.title}
-          </h3>
-          <p className="past__meta" data-past-fade>
-            {item.date}
-          </p>
-          <p className="past__meta" data-past-fade>
-            {item.place}
-          </p>
+        <div className="past__info" data-past-fade aria-live="polite">
+          {c.items.map((it, i) => (
+            <div key={it.title} className={`past__item${i === current ? ' is-current' : ''}`} aria-hidden={i !== current}>
+              <h3 className="past__name">{it.title}</h3>
+              <p className="past__meta">{it.date}</p>
+              <p className="past__meta">{it.place}</p>
+            </div>
+          ))}
         </div>
         <div className="past__nav" data-past-fade>
-          <button type="button" className="past__nav-btn past__nav-btn--prev" aria-label={c.prevLabel}>
+          <button type="button" className="past__nav-btn past__nav-btn--prev" aria-label={c.prevLabel} onClick={() => go(-1)}>
             <img src={navPrev} alt="" width={36} height={36} />
           </button>
-          <button type="button" className="past__nav-btn past__nav-btn--next" aria-label={c.nextLabel}>
+          <button type="button" className="past__nav-btn past__nav-btn--next" aria-label={c.nextLabel} onClick={() => go(1)}>
             <img src={navNext} alt="" width={36} height={36} />
           </button>
         </div>

@@ -33,12 +33,38 @@
   will-change: transform;
 }
 
-.past__photo > img {
+.past__img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-out);
+}
+
+.past__img.is-current {
+  opacity: 1;
+}
+
+/* event details stacked in one grid cell, cross-fading */
+.past__item {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.7s var(--ease-out),
+    visibility 0.7s;
+}
+
+.past__item.is-current {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0.15s;
 }
 
 /* Figma „Olvashatósági átmenet” */
@@ -54,9 +80,7 @@
   left: 24px;
   right: 24px;
   bottom: 120px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
 }
 
 .past__name {
@@ -176,9 +200,11 @@
     bottom: auto;
     width: 100rem;
     height: 20rem;
-    justify-content: flex-end;
-    gap: 1.6rem;
     white-space: nowrap;
+  }
+
+  .past__item {
+    gap: 1.6rem;
   }
 
   .past__name {
