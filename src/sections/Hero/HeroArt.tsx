@@ -46,17 +46,20 @@ export const HeroArt = forwardRef<HeroArtHandle, HeroArtProps>(function HeroArt(
               height: pct(col.h, PHOTO.h),
             }}
           >
-            <img
-              src={photo}
-              alt=""
-              data-anim="column-img"
-              style={{
-                left: pct(-col.x, COLUMN_W),
-                top: pct(-col.y, col.h),
-                width: pct(PHOTO.w, COLUMN_W),
-                height: pct(PHOTO.h, col.h),
-              }}
-            />
+            {/* inner clip – fades out on scroll (entrance anim lives on the outer box) */}
+            <div className="hero-art__column-clip" data-fade-column={i === TRANSITION_COLUMN ? undefined : ''}>
+              <img
+                src={photo}
+                alt=""
+                data-anim="column-img"
+                style={{
+                  left: pct(-col.x, COLUMN_W),
+                  top: pct(-col.y, col.h),
+                  width: pct(PHOTO.w, COLUMN_W),
+                  height: pct(PHOTO.h, col.h),
+                }}
+              />
+            </div>
           </div>
         ))}
       </div>

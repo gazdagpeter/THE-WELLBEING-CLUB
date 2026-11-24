@@ -119,6 +119,13 @@
   color: var(--brand-bordo);
 }
 
+.hero__scroll-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: inherit;
+}
+
 .hero__scroll-line {
   --scroll-line-h: 44px;
   position: relative;
@@ -207,6 +214,11 @@
 
 .hero-art__column {
   position: absolute;
+}
+
+.hero-art__column-clip {
+  position: absolute;
+  inset: 0;
   overflow: hidden;
   border-radius: 999px;
   /* Safari: keep the rounded clip while transforming */
@@ -214,7 +226,7 @@
   transform: translateZ(0);
 }
 
-.hero-art__column img {
+.hero-art__column-clip img {
   position: absolute;
   max-width: none;
   object-fit: cover;

@@ -68,6 +68,11 @@ write('heroDots.json', {
   }));
   const soft = paths.find((p) => p.opacity < 1);
   const bordo = paths.find((p) => p.opacity === 1);
+  // bordó background variant: same dots, light colours
+  const dark = read('intro/teaser-figure-dark.svg');
+  const darkPathFills = [...dark.matchAll(/<path ([^>]*?)\sd="[^"]+"([^>]*)\/>/g)].map(
+    (m) => (m[1] + m[2]).match(/fill="([^"]+)"/)[1],
+  );
   write('teaserDots.json', {
     width: Number(w),
     height: Number(h),
@@ -75,5 +80,10 @@ write('heroDots.json', {
     soft: soft.dots,
     bordo: bordo.dots,
     scatter: dotsFromCircles(svg),
+    dark: {
+      soft: darkPathFills[paths.indexOf(soft)],
+      bordo: darkPathFills[paths.indexOf(bordo)],
+      scatter: dotsFromCircles(dark).map((c) => c[3]),
+    },
   });
 }

@@ -71,8 +71,11 @@ export default function Hero() {
           scrub: 0.8,
         },
       });
-      if (figure) disperse.fromTo(figure, { disperse: 0 }, { disperse: 1, ease: 'none' }, 0);
-      disperse.to(q('[data-disperse]'), { autoAlpha: 0, ease: 'power1.in' }, 0);
+      if (figure) disperse.fromTo(figure, { disperse: 0 }, { disperse: 1, ease: 'none', duration: 1 }, 0);
+      disperse.to(q('[data-disperse]'), { autoAlpha: 0, ease: 'power1.in', duration: 1 }, 0);
+      // the other three photo columns and the scroll cue step aside right away
+      disperse.to(q('[data-fade-column]'), { autoAlpha: 0, y: 30, ease: 'power1.out', duration: 0.3, stagger: 0.04 }, 0);
+      disperse.to(q('[data-fade-scroll]'), { autoAlpha: 0, y: 12, ease: 'power1.out', duration: 0.2 }, 0);
 
       // fonts change the layout → recalculate scroll positions
       document.fonts?.ready.then(() => ScrollTrigger.refresh());
@@ -118,8 +121,10 @@ export default function Hero() {
         </div>
 
         <a className="hero__scroll" href="#rolunk" data-anim="fade">
-          <span>{c.scroll}</span>
-          <span className="hero__scroll-line" aria-hidden="true" />
+          <span className="hero__scroll-inner" data-fade-scroll>
+            <span>{c.scroll}</span>
+            <span className="hero__scroll-line" aria-hidden="true" />
+          </span>
         </a>
       </div>
     </section>

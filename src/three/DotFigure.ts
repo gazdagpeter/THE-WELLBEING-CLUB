@@ -25,6 +25,8 @@ export type Particle = {
   y: number;
   r: number;
   color: string;
+  /** colour on the dark (bordó) background – defaults to `color` */
+  darkColor?: string;
   /** 0–1, e.g. the 40 % „lágy réteg” */
   alpha: number;
   glow: boolean;
@@ -49,9 +51,11 @@ const vertexShader = /* glsl */ `
   attribute float aSeed;
   attribute vec3 aColor;
   attribute float aAlpha;
+  attribute vec3 aDarkColor;
 
   uniform float uProgress;
   uniform float uDisperse;
+  uniform float uTheme;
   uniform float uTime;
   uniform float uPxScale;
   uniform vec2 uMouse;
@@ -99,7 +103,7 @@ const vertexShader = /* glsl */ `
     float sizePx = max(halo * 2.0 * uPxScale, uMinPx * (halo / aRadius));
     gl_PointSize = sizePx;
 
-    vColor = aColor;
+    vColor = mix(aColor, aDarkColor, uTheme);
     vAlpha = smoothstep(0.0, 0.35, t) * aAlpha * (1.0 - smoothstep(0.15, 0.95, uDisperse));
     vGlow = aGlow;
     vCore = aRadius / halo;
@@ -160,6 +164,8 @@ export class DotFigure {
   progress = 0;
   /** Dispersal 0 → 1 (animate with GSAP). */
   disperse = 0;
+  /** Light (0) → dark/bordó background colours (1). */
+  theme = 0;
   private renderedDisperse = 0;
 
   constructor(container: HTMLElement, config: FigureConfig) {
@@ -182,6 +188,7 @@ export class DotFigure {
     const seed = new Float32Array(count);
     const alpha = new Float32Array(count);
     const color = new Float32Array(count * 3);
+    const darkColor = new Float32Array(count * 3);
 
     particles.forEach((p, i) => {
       position.set([p.x, p.y, 0], i * 3);
@@ -195,6 +202,7 @@ export class DotFigure {
       seed[i] = Math.random();
       alpha[i] = p.alpha;
       color.set(srgb(p.color), i * 3);
+      darkColor.set(srgb(p.darkColor ?? p.color), i * 3);
     });
 
     this.geometry = new BufferGeometry();
@@ -206,6 +214,7 @@ export class DotFigure {
     this.geometry.setAttribute('aSeed', new BufferAttribute(seed, 1));
     this.geometry.setAttribute('aColor', new BufferAttribute(color, 3));
     this.geometry.setAttribute('aAlpha', new BufferAttribute(alpha, 1));
+    this.geometry.setAttribute('aDarkColor', new BufferAttribute(darkColor, 3));
 
     this.material = new ShaderMaterial({
       vertexShader,
@@ -217,6 +226,7 @@ export class DotFigure {
       uniforms: {
         uProgress: { value: 0 },
         uDisperse: { value: 0 },
+        uTheme: { value: 0 },
         uTime: { value: 0 },
         uPxScale: { value: 1 },
         uMouse: { value: [-9999, -9999] },
@@ -296,6 +306,7 @@ export class DotFigure {
     u.uMouseStrength.value += (this.mouseTarget.strength - u.uMouseStrength.value) * 0.06;
     u.uProgress.value = this.progress;
     u.uDisperse.value = this.disperse;
+    u.uTheme.value = this.theme;
     u.uTime.value = time;
     this.renderer.render(this.scene, this.camera);
   };

@@ -57,7 +57,7 @@ export function teaserFigure(): FigureConfig {
   const particles: Particle[] = [];
   const { width } = TEASER_ART;
 
-  const silhouette = (layer: number[][], alpha: number) => {
+  const silhouette = (layer: number[][], alpha: number, darkColor: string) => {
     for (const [x, y, r] of layer) {
       // sweep from the raised feet (left) to the head (right)
       particles.push({
@@ -65,6 +65,7 @@ export function teaserFigure(): FigureConfig {
         y,
         r,
         color: BORDO,
+        darkColor,
         alpha,
         glow: false,
         delay: (x / width) * 0.8 + Math.random() * 0.25,
@@ -72,12 +73,21 @@ export function teaserFigure(): FigureConfig {
     }
   };
 
-  silhouette(teaserDots.soft, teaserDots.softOpacity);
-  silhouette(teaserDots.bordo, 1);
+  silhouette(teaserDots.soft, teaserDots.softOpacity, teaserDots.dark.soft);
+  silhouette(teaserDots.bordo, 1, teaserDots.dark.bordo);
 
-  for (const [x, y, r, color, glow] of teaserDots.scatter as Scatter) {
-    particles.push({ x, y, r, color, alpha: 1, glow: glow === 1, delay: 0.5 + Math.random() * 0.5 });
-  }
+  (teaserDots.scatter as Scatter).forEach(([x, y, r, color, glow], i) => {
+    particles.push({
+      x,
+      y,
+      r,
+      color,
+      darkColor: teaserDots.dark.scatter[i],
+      alpha: 1,
+      glow: glow === 1,
+      delay: 0.5 + Math.random() * 0.5,
+    });
+  });
 
   return { ...TEASER_ART, particles };
 }

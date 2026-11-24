@@ -45,6 +45,21 @@
   width: 220%;
 }
 
+/* bordó closing state (Figma: „02 Bemutatkozás – zárás, bordó háttér”) */
+.intro__dark {
+  position: absolute;
+  inset: 0;
+  background: var(--brand-bordo);
+  visibility: hidden;
+}
+
+.intro__glow--mauve {
+  left: -60%;
+  bottom: -5%;
+  width: 220%;
+  visibility: hidden;
+}
+
 /* the photo that grows out of the hero column */
 .intro__fly {
   position: absolute;
@@ -208,6 +223,14 @@
     top: 174rem;
     bottom: auto;
     width: 192rem;
+    height: 122rem;
+  }
+
+  .intro__glow--mauve {
+    left: 5rem;
+    top: 148.95rem;
+    bottom: auto;
+    width: 182rem;
     height: 122rem;
   }
 

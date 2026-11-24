@@ -4,6 +4,7 @@ import glowTransition from '@/assets/intro/glow-transition.svg';
 import glowTransitionPowder from '@/assets/intro/glow-transition-powder.svg';
 import glowRose from '@/assets/intro/glow-rose.svg';
 import glowClosing from '@/assets/intro/glow-closing.svg';
+import glowMauve from '@/assets/intro/glow-mauve.svg';
 import teaserSvg from '@/assets/intro/teaser-figure.svg';
 import { Button } from '@/components/Button/Button';
 import { introContent } from '@/content/intro';
@@ -150,25 +151,28 @@ export default function Intro() {
         );
       }
 
-      /* ───────── 4 · background colour shift towards the bottom ───────── */
+      /* ───────── 4 · colour shift: rosy glows → bordó closing state ─────────
+       * Ends when the closing block sits like the Figma variant
+       * „02 Bemutatkozás – zárás, bordó háttér”.                              */
 
-      gsap.fromTo(
-        q('[data-color-glow]'),
-        { autoAlpha: 0, scale: 0.85 },
-        {
-          autoAlpha: 1,
-          scale: 1,
-          ease: 'none',
-          stagger: 0.15,
-          scrollTrigger: {
-            trigger: figureHost.current,
-            start: 'top bottom',
-            endTrigger: section,
-            end: 'bottom bottom',
-            scrub: true,
-          },
+      const tone = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: figureHost.current,
+          start: 'top bottom',
+          endTrigger: q('.intro__closing')[0],
+          end: 'bottom 95%',
+          scrub: true,
         },
-      );
+      });
+      tone
+        .fromTo(q('[data-color-glow]'), { autoAlpha: 0, scale: 0.85 }, { autoAlpha: 1, scale: 1, duration: 0.4, stagger: 0.08 }, 0)
+        .fromTo(q('[data-dark-bg]'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.55 }, 0.45)
+        .fromTo(q('[data-dark-glow]'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.45 }, 0.55)
+        .to(q('[data-color-glow]'), { autoAlpha: 0, duration: 0.4 }, 0.6)
+        .fromTo(q('.intro__closing-line1'), { color: '#590110' }, { color: '#f7f2ee', duration: 0.5 }, 0.5)
+        .fromTo(q('.intro__closing-line2'), { color: '#590110' }, { color: '#d8b4b8', duration: 0.5 }, 0.5);
+      if (teaser) tone.fromTo(teaser, { theme: 0 }, { theme: 1, duration: 0.5 }, 0.5);
 
       /* ───────── 5 · closing thought ───────── */
 
@@ -193,6 +197,12 @@ export default function Intro() {
         <img className="intro__glow intro__glow--transition-powder" src={glowTransitionPowder} alt="" />
         <img className="intro__glow intro__glow--rose" src={glowRose} alt="" data-color-glow />
         <img className="intro__glow intro__glow--closing" src={glowClosing} alt="" data-color-glow />
+        {animated && (
+          <>
+            <div className="intro__dark" data-dark-bg />
+            <img className="intro__glow intro__glow--mauve" src={glowMauve} alt="" data-dark-glow />
+          </>
+        )}
       </div>
 
       {animated && (
