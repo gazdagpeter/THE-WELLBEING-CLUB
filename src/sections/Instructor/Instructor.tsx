@@ -1,7 +1,7 @@
 import { useRef } from 'react';
-import arrowBordo from '@/assets/instructor/arrow-bordo.svg';
 import glowRose from '@/assets/instructor/glow-rose.svg';
 import echoSvg from '@/assets/instructor/echo-figure.svg';
+import { Button } from '@/components/Button/Button';
 import { instructorContent } from '@/content/instructor';
 import { useDotFigure } from '@/hooks/useDotFigure';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
@@ -64,10 +64,9 @@ export default function Instructor() {
         <p className="instructor__text" data-instructor-fade>
           {c.text}
         </p>
-        <a className="instructor__cta" href={c.cta.href} data-instructor-fade>
-          {c.cta.label}
-          <img src={arrowBordo} alt="" width={18} height={18} />
-        </a>
+        <div className="instructor__cta" data-instructor-fade>
+          <Button href={c.cta.href}>{c.cta.label}</Button>
+        </div>
       </div>
     </section>
   );

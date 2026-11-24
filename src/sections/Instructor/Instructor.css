@@ -109,29 +109,9 @@
   color: var(--text-sotet);
 }
 
-/* Gomb – Szöveges, light on bordó */
+/* Gomb – Elsődleges */
 .instructor__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
   margin-top: 36px;
-  padding: 10px 0;
-  /* Figma: törtfehér underline on the light background */
-  border-bottom: 1px solid var(--brand-tort-feher);
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 1;
-  letter-spacing: 0.01em;
-}
-
-.instructor__cta img {
-  width: 18px;
-  height: 18px;
-  transition: transform 0.4s var(--ease-out);
-}
-
-.instructor__cta:hover img {
-  transform: translateX(4px);
 }
 
 /* ───────── Desktop – Figma „08 Az oktató” (1920 × 1000) ───────── */
@@ -152,8 +132,8 @@
 
   .instructor__name {
     position: absolute;
-    /* Figma box: left 1329, top 337, 462 × 276 (text block centred in it) */
-    left: 132.9rem;
+    /* Figma box: left 1349.7, top 337, 462 × 276 (text block centred in it) */
+    left: 134.97rem;
     top: 33.7rem;
     font-size: 14rem;
   }
@@ -203,9 +183,6 @@
   }
 
   .instructor__cta {
-    margin-top: 4.8rem;
-    gap: 1.4rem;
-    padding: 1rem 0;
-    font-size: max(1.6rem, 13px);
+    margin-top: 4rem;
   }
 }
