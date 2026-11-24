@@ -59,16 +59,24 @@ export default function PrivateEvents() {
       };
       gsap.ticker.add(tick);
 
-      // hovering the cards eases the loop to a stop, leaving lets it glide again
+      // only a photo under the cursor eases the loop to a stop; leaving it lets the loop glide again
       const slow = () => gsap.to(state, { speed: 0, duration: 0.8, ease: 'power2.out', overwrite: true });
       const go = () => gsap.to(state, { speed: 1, duration: 1.2, ease: 'power2.inOut', overwrite: true });
-      trackEl.addEventListener('mouseenter', slow);
-      trackEl.addEventListener('mouseleave', go);
+      const over = (e: MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.private__photo')) slow();
+      };
+      const out = (e: MouseEvent) => {
+        const from = (e.target as HTMLElement).closest('.private__photo');
+        const to = (e.relatedTarget as HTMLElement | null)?.closest('.private__photo');
+        if (from && from !== to) go();
+      };
+      trackEl.addEventListener('mouseover', over);
+      trackEl.addEventListener('mouseout', out);
 
       return () => {
         gsap.ticker.remove(tick);
-        trackEl.removeEventListener('mouseenter', slow);
-        trackEl.removeEventListener('mouseleave', go);
+        trackEl.removeEventListener('mouseover', over);
+        trackEl.removeEventListener('mouseout', out);
       };
     },
     { scope: root, dependencies: [reducedMotion] },
