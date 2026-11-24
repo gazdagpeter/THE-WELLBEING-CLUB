@@ -10,6 +10,7 @@ export const introContent = {
     'Változatos mozgásformákat, sportélményeket, közösségi találkozókat és egyedi együttműködéseket kínálunk, amelyek összekötik a hasonló energiával és az élet teljes megélésének vágyával rendelkező embereket.',
   ],
   cta: { label: 'Ismerj meg minket', href: '#rolunk' },
-  closingLine1: 'Mert számunkra nem csak a mozgás számít.',
-  closingLine2: 'Hanem mindaz, ami általa elkezdődik.',
+  /** line breaks as in Figma */
+  closingLine1: ['Mert számunkra nem csak', 'a mozgás számít.'],
+  closingLine2: ['Hanem mindaz,', 'ami általa elkezdődik.'],
 };

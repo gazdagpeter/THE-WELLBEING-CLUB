@@ -10,7 +10,7 @@ import { Button } from '@/components/Button/Button';
 import { introContent } from '@/content/intro';
 import { useDotFigure } from '@/hooks/useDotFigure';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { gsap, useGSAP } from '@/lib/gsap';
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { teaserFigure } from '@/three/figures';
 import { COLUMNS, COLUMN_W, PHOTO, TRANSITION_COLUMN } from '@/sections/Hero/heroGeometry';
 import './Intro.css';
@@ -155,13 +155,19 @@ export default function Intro() {
        * Ends when the closing block sits like the Figma variant
        * „02 Bemutatkozás – zárás, bordó háttér”.                              */
 
+      const closingEl = q('.intro__closing')[0];
       const tone = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
           trigger: figureHost.current,
           start: 'top bottom',
-          endTrigger: q('.intro__closing')[0],
-          end: 'bottom 95%',
+          // closing block centred in the viewport – or the page end, if that comes first
+          end: () => {
+            const r = closingEl.getBoundingClientRect();
+            const centred = window.scrollY + r.top + r.height / 2 - window.innerHeight / 2;
+            return Math.min(centred, ScrollTrigger.maxScroll(window) - 1);
+          },
+          invalidateOnRefresh: true,
           scrub: true,
         },
       });
@@ -171,7 +177,10 @@ export default function Intro() {
         .fromTo(q('[data-dark-glow]'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.45 }, 0.55)
         .to(q('[data-color-glow]'), { autoAlpha: 0, duration: 0.4 }, 0.6)
         .fromTo(q('.intro__closing-line1'), { color: '#590110' }, { color: '#f7f2ee', duration: 0.5 }, 0.5)
-        .fromTo(q('.intro__closing-line2'), { color: '#590110' }, { color: '#d8b4b8', duration: 0.5 }, 0.5);
+        .fromTo(q('.intro__closing-line2'), { color: '#590110' }, { color: '#d8b4b8', duration: 0.5 }, 0.5)
+        // texts still on screen above (mostly on small screens) stay readable on bordó
+        .fromTo(q('.intro__heading'), { color: '#590110' }, { color: '#f7f2ee', duration: 0.5 }, 0.5)
+        .fromTo(q('.intro__body'), { color: '#3d0a14' }, { color: '#ebd9d6', duration: 0.5 }, 0.5);
       if (teaser) tone.fromTo(teaser, { theme: 0 }, { theme: 1, duration: 0.5 }, 0.5);
 
       /* ───────── 5 · closing thought ───────── */
@@ -241,10 +250,14 @@ export default function Intro() {
 
       <div className="intro__closing">
         <p className="intro__closing-line1" data-closing-fade>
-          {c.closingLine1}
+          {c.closingLine1.map((line) => (
+            <span key={line}>{line}</span>
+          ))}
         </p>
         <p className="intro__closing-line2 write-reveal" data-closing-write>
-          {c.closingLine2}
+          {c.closingLine2.map((line) => (
+            <span key={line}>{line}</span>
+          ))}
         </p>
       </div>
     </section>

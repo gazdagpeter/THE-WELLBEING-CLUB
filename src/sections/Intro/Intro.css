@@ -154,22 +154,26 @@
   position: relative;
   z-index: 1;
   margin-top: 40px;
-  text-align: center;
+}
+
+.intro__closing p > span {
+  display: block;
+  white-space: nowrap;
 }
 
 .intro__closing-line1 {
   font-family: var(--font-display);
-  font-size: clamp(32px, 8vw, 64px);
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  text-wrap: balance;
+  font-size: clamp(32px, 8.4vw, 56px);
+  line-height: 1.1;
+  letter-spacing: -0.005em;
 }
 
 .intro__closing-line2 {
-  margin-top: 12px;
+  margin-top: 16px;
+  padding-left: 10%;
   font-family: var(--font-script);
-  font-size: clamp(42px, 10.5vw, 84px);
-  line-height: 1.2;
+  font-size: clamp(38px, 9.6vw, 72px);
+  line-height: 1.05;
 }
 
 /* ───────── Tablet ───────── */
@@ -192,7 +196,7 @@
 @media (min-width: 1200px) {
   .intro {
     display: block;
-    height: 280rem;
+    height: 260rem;
     padding: 0;
   }
 
@@ -211,8 +215,8 @@
   }
 
   .intro__glow--rose {
-    left: 17rem;
-    top: 133.75rem;
+    left: 66rem;
+    top: 140rem;
     bottom: auto;
     width: 158rem;
     height: 118rem;
@@ -220,15 +224,15 @@
 
   .intro__glow--closing {
     left: 0;
-    top: 174rem;
+    top: 138rem;
     bottom: auto;
     width: 192rem;
     height: 122rem;
   }
 
   .intro__glow--mauve {
-    left: 5rem;
-    top: 148.95rem;
+    left: 50rem;
+    top: 138rem;
     bottom: auto;
     width: 182rem;
     height: 122rem;
@@ -276,30 +280,30 @@
 
   .intro__figure {
     position: absolute;
-    left: 54.075rem;
-    top: 159.188rem;
+    left: 95.775rem;
+    top: 166.163rem;
     width: 83.0638rem;
     margin: 0;
   }
 
   .intro__closing {
     position: absolute;
-    left: 10rem;
-    top: 221.3rem;
-    width: 172rem;
+    left: 24.667rem;
+    top: 184.3rem;
+    width: 80rem;
     margin: 0;
     white-space: nowrap;
   }
 
   .intro__closing-line1 {
-    font-size: 9.6rem;
-    letter-spacing: -0.096rem;
-    text-wrap: nowrap;
+    font-size: 5.6rem;
+    letter-spacing: -0.028rem;
   }
 
   .intro__closing-line2 {
-    /* Figma: second line starts 125px below the first */
-    margin-top: 2.42rem;
-    font-size: 12.4rem;
+    /* Figma: script block starts 142px below the first line, indented 146.67px */
+    margin-top: 1.88rem;
+    padding-left: 14.667rem;
+    font-size: 7.2rem;
   }
 }
