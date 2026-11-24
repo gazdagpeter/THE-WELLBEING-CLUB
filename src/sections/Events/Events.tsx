@@ -4,8 +4,11 @@ import iconLocationLight from '@/assets/events/icon-location-light.svg';
 import iconLocationDark from '@/assets/events/icon-location-dark.svg';
 import navPrev from '@/assets/events/nav-prev.svg';
 import navNext from '@/assets/events/nav-next.svg';
+import arrowLight from '@/assets/hero/arrow-light.svg';
+import arrowBordo from '@/assets/hero/arrow-bordo.svg';
 import { Button } from '@/components/Button/Button';
 import { eventsContent } from '@/content/events';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { gsap, useGSAP } from '@/lib/gsap';
 import './Events.css';
@@ -20,21 +23,12 @@ const DESKTOP_SLOTS: Slot[] = [
 ];
 
 const CENTER = 1;
+const DESKTOP = '(min-width: 1200px)';
 
-function computeSlots(stage: HTMLElement, card: HTMLElement): Slot[] {
-  if (window.matchMedia('(min-width: 1200px)').matches) {
-    // 1rem = 10 Figma px on desktop (see tokens.css)
-    const k = parseFloat(getComputedStyle(document.documentElement).fontSize) / 10;
-    return DESKTOP_SLOTS.map((s) => ({ x: s.x * k, y: s.y * k, rotation: s.rotation }));
-  }
-  const w = stage.clientWidth;
-  const h = stage.clientHeight;
-  const d = Math.min(w * 0.4, card.offsetWidth * 0.92);
-  return [
-    { x: w / 2 - d, y: h / 2 + 28, rotation: -5 },
-    { x: w / 2, y: h / 2, rotation: 2 },
-    { x: w / 2 + d, y: h / 2 + 40, rotation: 5 },
-  ];
+function desktopSlots(): Slot[] {
+  // 1rem = 10 Figma px on desktop (see tokens.css)
+  const k = parseFloat(getComputedStyle(document.documentElement).fontSize) / 10;
+  return DESKTOP_SLOTS.map((s) => ({ x: s.x * k, y: s.y * k, rotation: s.rotation }));
 }
 
 /** „04 Közelgő események” – revealed underneath the previous block, 3-card carousel. */
@@ -47,20 +41,39 @@ export default function Events() {
   const prevOrder = useRef<number[]>([0, 1, 2]);
   const reducedMotion = usePrefersReducedMotion();
   const animated = !reducedMotion;
+  /** desktop: tilted 3-card stack · below: side-by-side swipe row */
+  const isDesktop = useMediaQuery(DESKTOP);
   /** slot → card index (0 = left, 1 = centre, 2 = right) */
   const [order, setOrder] = useState([0, 1, 2]);
   const c = eventsContent;
 
-  const next = useCallback(() => setOrder((o) => [o[1], o[2], o[0]]), []);
-  const prev = useCallback(() => setOrder((o) => [o[2], o[0], o[1]]), []);
+  /** mobile / tablet: page the native scroller one card at a time */
+  const scrollByCard = useCallback((dir: 1 | -1) => {
+    const stageEl = stage.current;
+    const card = cards.current[0];
+    if (!stageEl || !card) return;
+    const gap = parseFloat(getComputedStyle(stageEl).columnGap) || 0;
+    stageEl.scrollBy({ left: dir * (card.offsetWidth + gap), behavior: 'smooth' });
+  }, []);
+
+  const next = useCallback(() => {
+    if (isDesktop) setOrder((o) => [o[1], o[2], o[0]]);
+    else scrollByCard(1);
+  }, [isDesktop, scrollByCard]);
+  const prev = useCallback(() => {
+    if (isDesktop) setOrder((o) => [o[2], o[0], o[1]]);
+    else scrollByCard(-1);
+  }, [isDesktop, scrollByCard]);
 
   /* ───────── place / rotate the cards ───────── */
   const place = useCallback(
     (instant: boolean) => {
-      const stageEl = stage.current;
-      const first = cards.current[0];
-      if (!stageEl || !first) return;
-      const slots = computeSlots(stageEl, first);
+      if (!isDesktop) {
+        // swipe row: cards sit in normal flow
+        cards.current.forEach((card) => card && gsap.set(card, { clearProps: 'transform,zIndex' }));
+        return;
+      }
+      const slots = desktopSlots();
       const before = prevOrder.current;
 
       cards.current.forEach((card, index) => {
@@ -87,7 +100,7 @@ export default function Events() {
       });
       prevOrder.current = order;
     },
-    [order, animated],
+    [order, animated, isDesktop],
   );
 
   useLayoutEffect(() => {
@@ -171,7 +184,8 @@ export default function Events() {
           <ul ref={stage} className="events__stage">
             {c.items.map((item, index) => {
               const slot = order.indexOf(index);
-              const theme = slot === CENTER ? 'puder' : 'bordo';
+              // Figma: every second card is Púder – on desktop the centre one
+              const theme = (isDesktop ? slot === CENTER : index % 2 === 1) ? 'puder' : 'bordo';
               return (
                 <li
                   key={item.title}
@@ -183,7 +197,7 @@ export default function Events() {
                   data-slot={slot}
                   onClick={(e) => {
                     // a side card clicked (not its button) → bring it to the centre
-                    if ((e.target as HTMLElement).closest('a')) return;
+                    if (!isDesktop || (e.target as HTMLElement).closest('a')) return;
                     if (slot === 0) prev();
                     if (slot === 2) next();
                   }}
@@ -203,15 +217,18 @@ export default function Events() {
                         </span>
                         {item.place}
                       </p>
-                      <div className="event-card__cta">
-                        <Button
-                          variant={theme === 'puder' ? 'primary' : 'secondary'}
-                          href={c.ctaHref}
-                          tabIndex={slot === CENTER ? 0 : -1}
-                        >
-                          {c.cta}
-                        </Button>
-                      </div>
+                      {/* Gomb: Másodlagos on bordó, Elsődleges on púder – colours cross-fade with the card */}
+                      <a
+                        className="event-card__cta"
+                        href={c.ctaHref}
+                        tabIndex={!isDesktop || slot === CENTER ? 0 : -1}
+                      >
+                        <span>{c.cta}</span>
+                        <span className="event-card__cta-icon" aria-hidden="true">
+                          <img className="is-on-bordo" src={arrowBordo} alt="" width={18} height={18} />
+                          <img className="is-on-puder" src={arrowLight} alt="" width={18} height={18} />
+                        </span>
+                      </a>
                     </div>
                   </article>
                 </li>
