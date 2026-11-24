@@ -1,0 +1,170 @@
+/* ───────── 07 Privát és céges rendezvények – mobile first ───────── */
+
+.private {
+  /* 1 Figma px – card sizes scale with it */
+  --u: 0.62px;
+  position: relative;
+  /* slides over the previous block */
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 88px 0 96px;
+  overflow: clip;
+  background: var(--brand-bordo);
+  color: var(--brand-tort-feher);
+}
+
+.private__title,
+.private__intro,
+.private__cta {
+  padding: 0 var(--page-gutter);
+}
+
+.private__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(36px, 9vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.private__title span {
+  display: block;
+}
+
+.private__intro {
+  max-width: 519px;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--brand-rozsas);
+}
+
+/* endless card row */
+.private__row {
+  margin-top: 32px;
+}
+
+.private__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.private__set {
+  display: flex;
+  align-items: flex-start;
+  gap: calc(40 * var(--u));
+  margin: 0;
+  padding: 0 calc(40 * var(--u)) 0 0;
+  list-style: none;
+}
+
+.private__card {
+  display: flex;
+  flex-direction: column;
+  gap: calc(24 * var(--u));
+  width: calc(var(--w) * var(--u));
+  margin-top: calc(var(--offset) * var(--u));
+}
+
+.private__photo {
+  height: calc(var(--h) * var(--u));
+  overflow: hidden;
+  border-radius: calc(32 * var(--u));
+}
+
+.private__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s var(--ease-out);
+}
+
+.private__card:hover .private__photo img {
+  transform: scale(1.04);
+}
+
+.private__name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: max(calc(36 * var(--u)), 20px);
+  line-height: 1.2;
+}
+
+.private__text {
+  font-size: max(calc(15 * var(--u)), 13px);
+  line-height: 1.6;
+  color: var(--brand-rozsas);
+}
+
+.private__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+@media (min-width: 768px) {
+  .private {
+    --u: 0.8px;
+  }
+
+  .private__intro {
+    font-size: 20px;
+  }
+}
+
+/* ───────── Desktop – Figma (1920 × 1467) ───────── */
+@media (min-width: 1200px) {
+  .private {
+    --u: 0.1rem;
+    display: block;
+    height: 146.7rem;
+    padding: 0;
+  }
+
+  .private__title {
+    position: absolute;
+    left: 10rem;
+    top: 11rem;
+    width: 120rem;
+    padding: 0;
+    font-size: 7.2rem;
+    letter-spacing: -0.072rem;
+  }
+
+  .private__intro {
+    position: absolute;
+    left: 130rem;
+    top: 15.4rem;
+    width: 51.9rem;
+    max-width: none;
+    padding: 0;
+    font-size: max(2rem, 15px);
+  }
+
+  .private__row {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 43.8rem;
+    margin: 0;
+  }
+
+  .private__cta {
+    position: absolute;
+    left: 50%;
+    top: 127.6rem;
+    margin: 0;
+    padding: 0;
+    transform: translateX(calc(-50% + 1.55rem));
+  }
+
+  /* large „Ajánlatkérés” button */
+  .private__cta .btn {
+    gap: 1.8rem;
+    padding: 3rem 5.2rem 3rem 5.6rem;
+    font-size: max(2.1rem, 15px);
+  }
+}
