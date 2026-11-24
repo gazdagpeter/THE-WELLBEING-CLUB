@@ -161,11 +161,13 @@ export default function Intro() {
         scrollTrigger: {
           trigger: figureHost.current,
           start: 'top bottom',
-          // closing block centred in the viewport – or the page end, if that comes first
+          // closing block centred in the viewport – or the section's end reaching the
+          // viewport bottom / the page end, whichever comes first (no seam with the next block)
           end: () => {
             const r = closingEl.getBoundingClientRect();
             const centred = window.scrollY + r.top + r.height / 2 - window.innerHeight / 2;
-            return Math.min(centred, ScrollTrigger.maxScroll(window) - 1);
+            const sectionEnd = window.scrollY + section.getBoundingClientRect().bottom - window.innerHeight;
+            return Math.min(centred, sectionEnd, ScrollTrigger.maxScroll(window) - 1);
           },
           invalidateOnRefresh: true,
           scrub: true,

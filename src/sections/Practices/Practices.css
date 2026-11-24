@@ -70,14 +70,35 @@
 .practices__link {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px 24px;
-  padding: 32px 0;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 20px;
+  row-gap: 8px;
+  padding: 28px 0;
+}
+
+.practices__thumb {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: center;
+  width: 64px;
+  height: 128px;
+  overflow: hidden;
+  border-radius: 999px;
+}
+
+.practices__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .practices__name {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
   font-family: var(--font-display);
-  font-size: clamp(36px, 9vw, 72px);
+  font-size: clamp(32px, 8.4vw, 72px);
   line-height: 1.05;
   letter-spacing: -0.01em;
 }
@@ -94,22 +115,24 @@
 }
 
 .practices__text {
-  grid-column: 1;
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
   max-width: 420px;
-  font-size: 16px;
-  line-height: 1.65;
+  font-size: 15px;
+  line-height: 1.6;
   color: var(--brand-rozsas);
 }
 
 .practices__arrow {
-  grid-column: 2;
-  grid-row: 1;
+  grid-column: 3;
+  grid-row: 1 / span 2;
   align-self: center;
 }
 
 .practices__arrow img {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
 }
 
 /* hover / focus state: the row lights up */
@@ -203,18 +226,27 @@ a.practices__link:focus-visible .practices__arrow img {
 /* ───────── Tablet ───────── */
 @media (min-width: 768px) {
   .practices__link {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 420px) auto;
-    align-items: center;
-    padding: 44px 0;
+    grid-template-columns: 96px minmax(0, 1fr) auto;
+    column-gap: 36px;
+    padding: 36px 0;
+  }
+
+  .practices__thumb {
+    width: 96px;
+    height: 192px;
+  }
+
+  .practices__name {
+    font-size: clamp(44px, 6.4vw, 72px);
   }
 
   .practices__text {
-    grid-column: 2;
-    grid-row: 1;
+    font-size: 17px;
   }
 
-  .practices__arrow {
-    grid-column: 3;
+  .practices__arrow img {
+    width: 30px;
+    height: 30px;
   }
 
   .practices__intro {
@@ -269,6 +301,11 @@ a.practices__link:focus-visible .practices__arrow img {
     display: block;
     height: 18rem;
     padding: 0;
+  }
+
+  /* desktop: the hover photo replaces the row thumbnails */
+  .practices__thumb {
+    display: none;
   }
 
   .practices__name {

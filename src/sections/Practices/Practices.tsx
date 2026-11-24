@@ -134,6 +134,10 @@ export default function Practices() {
             // outer spans are revealed on scroll, inner `.practices__dim` spans carry the hover state
             const content = (
               <>
+                {/* small photo at the row start – for touch / narrow layouts without hover */}
+                <span className="practices__thumb" data-row-part aria-hidden="true">
+                  {'image' in item && <img src={item.image} alt="" loading="lazy" />}
+                </span>
                 <span className="practices__name" data-row-part>
                   <span className="practices__dim">{item.name}</span>
                   {'soon' in item && <span className="practices__soon">{item.soon}</span>}
