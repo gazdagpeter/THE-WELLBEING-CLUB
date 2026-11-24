@@ -33,9 +33,10 @@
   line-height: 0.85;
   white-space: nowrap;
   transform: rotate(5deg);
-  /* room for the swash of the „M” that reaches left of the text box (reveal mask) */
-  padding-left: 0.3em;
-  margin-left: -0.3em;
+  /* generous room around the glyphs: swashes reach outside the text box, and the
+     reveal mask only covers the box (padding is pulled back with negative margins) */
+  padding: 0.3em 0.45em 0.4em 0.5em !important;
+  margin: -0.3em -0.45em -0.4em -0.5em !important;
 }
 
 .instructor__name span {
@@ -151,14 +152,9 @@
 
   .instructor__name {
     position: absolute;
+    /* Figma box: left 1329, top 337, 462 × 276 (text block centred in it) */
     left: 132.9rem;
     top: 33.7rem;
-    width: 46.2rem;
-    height: 27.57rem;
-    margin: 0 0 0 -4.2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     font-size: 14rem;
   }
 
