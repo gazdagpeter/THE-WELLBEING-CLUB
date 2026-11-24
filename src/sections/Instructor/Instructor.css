@@ -33,6 +33,9 @@
   line-height: 0.85;
   white-space: nowrap;
   transform: rotate(5deg);
+  /* room for the swash of the „M” that reaches left of the text box (reveal mask) */
+  padding-left: 0.3em;
+  margin-left: -0.3em;
 }
 
 .instructor__name span {
@@ -152,7 +155,7 @@
     top: 33.7rem;
     width: 46.2rem;
     height: 27.57rem;
-    margin: 0;
+    margin: 0 0 0 -4.2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
