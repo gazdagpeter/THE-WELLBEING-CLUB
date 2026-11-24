@@ -154,12 +154,12 @@
   opacity: 0.45;
 }
 
-a.practices__link:hover .practices__dim,
+.is-active a.practices__link .practices__dim,
 a.practices__link:focus-visible .practices__dim {
   opacity: 1;
 }
 
-a.practices__link:hover .practices__arrow img,
+.is-active a.practices__link .practices__arrow img,
 a.practices__link:focus-visible .practices__arrow img {
   transform: translateX(6px);
 }

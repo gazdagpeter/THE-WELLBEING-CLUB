@@ -170,7 +170,8 @@ export default function Intro() {
             return Math.min(centred, sectionEnd, ScrollTrigger.maxScroll(window) - 1);
           },
           invalidateOnRefresh: true,
-          scrub: true,
+          // smoothed scrub – colours glide instead of following every scroll tick
+          scrub: 0.8,
         },
       });
       tone

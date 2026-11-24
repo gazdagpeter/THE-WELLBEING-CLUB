@@ -68,7 +68,10 @@ export default function Practices() {
     const row = listEl.children[index] as HTMLElement;
     if (!row) return;
 
+    if (listEl.dataset.active === String(index)) return;
     listEl.dataset.active = String(index);
+    // highlight via a class (not :hover) – rows sliding under a still cursor while scrolling don't light up
+    Array.from(listEl.children).forEach((li, i) => li.classList.toggle('is-active', i === index));
     const y = row.offsetTop + row.offsetHeight / 2 - photoEl.offsetHeight / 2;
     const visible = photoEl.dataset.visible === 'true';
     photoEl.dataset.visible = 'true';
@@ -105,6 +108,7 @@ export default function Practices() {
     const photoEl = photo.current;
     if (!listEl || !photoEl) return;
     delete listEl.dataset.active;
+    Array.from(listEl.children).forEach((li) => li.classList.remove('is-active'));
     photoEl.dataset.visible = 'false';
     gsap.to(photoEl, {
       autoAlpha: 0,
@@ -159,7 +163,7 @@ export default function Practices() {
                   <a
                     className="practices__link"
                     href={item.href}
-                    onMouseEnter={() => showRow(i)}
+                    onMouseMove={() => showRow(i)}
                     onFocus={() => showRow(i)}
                     onBlur={hide}
                   >
