@@ -138,29 +138,43 @@
   height: 26px;
 }
 
-/* hover / focus state: the row lights up */
-.practices__dim {
-  opacity: 0.6;
-  transition: opacity 0.5s var(--ease-out);
+/* hover / focus state: the row lights up.
+ * Dimmed with a lighter text colour (not opacity): semi-transparent text layers
+ * shimmer / fringe while scrolling. */
+.practices__name .practices__dim {
+  color: rgb(247 242 238 / 0.6);
+  transition: color 0.5s var(--ease-out);
+}
+
+.practices__text .practices__dim {
+  color: rgb(235 217 214 / 0.6);
+  transition: color 0.5s var(--ease-out);
+}
+
+.is-soon .practices__name .practices__dim {
+  color: rgb(247 242 238 / 0.45);
 }
 
 .practices__arrow .practices__dim {
+  opacity: 0.5;
   transition:
     opacity 0.5s var(--ease-out),
     transform 0.5s var(--ease-out);
 }
 
-.is-soon .practices__name .practices__dim {
-  opacity: 0.45;
+.is-active a.practices__link .practices__name .practices__dim,
+a.practices__link:focus-visible .practices__name .practices__dim {
+  color: var(--brand-tort-feher);
 }
 
-.is-active a.practices__link .practices__dim,
-a.practices__link:focus-visible .practices__dim {
+.is-active a.practices__link .practices__text .practices__dim,
+a.practices__link:focus-visible .practices__text .practices__dim {
+  color: var(--brand-rozsas);
+}
+
+.is-active a.practices__link .practices__arrow .practices__dim,
+a.practices__link:focus-visible .practices__arrow .practices__dim {
   opacity: 1;
-}
-
-.is-active a.practices__link .practices__arrow img,
-a.practices__link:focus-visible .practices__arrow img {
   transform: translateX(6px);
 }
 
