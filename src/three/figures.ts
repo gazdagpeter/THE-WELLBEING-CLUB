@@ -1,6 +1,7 @@
 import type { FigureConfig, Particle } from './DotFigure';
 import heroDots from './heroDots.json';
 import teaserDots from './teaserDots.json';
+import balanceDots from './balanceDots.json';
 
 const BORDO = '#590110';
 
@@ -90,4 +91,27 @@ export function teaserFigure(): FigureConfig {
   });
 
   return { ...TEASER_ART, particles };
+}
+
+/* ───────── 03 Mozgásformák – balance pose (light dots on bordó) ───────── */
+
+export function balanceFigure(): FigureConfig {
+  const particles: Particle[] = [];
+  const { width } = balanceDots;
+
+  const silhouette = (layer: number[][], color: string, alpha: number) => {
+    for (const [x, y, r] of layer) {
+      // sweep from the extended arm (left) to the lifted leg (right)
+      particles.push({ x, y, r, color, alpha, glow: false, delay: (x / width) * 0.8 + Math.random() * 0.25 });
+    }
+  };
+
+  silhouette(balanceDots.soft, balanceDots.softColor, balanceDots.softOpacity);
+  silhouette(balanceDots.bordo, balanceDots.mainColor, 1);
+
+  for (const [x, y, r, color, glow] of balanceDots.scatter as Scatter) {
+    particles.push({ x, y, r, color, alpha: 1, glow: glow === 1, delay: 0.5 + Math.random() * 0.5 });
+  }
+
+  return { width: balanceDots.width, height: balanceDots.height, particles };
 }

@@ -1,0 +1,376 @@
+/* ───────── 03 Mozgásformák – mobile first ───────── */
+
+.practices {
+  position: relative;
+  padding: 96px var(--page-gutter) 120px;
+  background: var(--brand-bordo);
+  color: var(--brand-tort-feher);
+}
+
+.practices__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.practices__glow {
+  position: absolute;
+  left: -60%;
+  bottom: -10%;
+  width: 220%;
+  max-width: none;
+  height: auto;
+}
+
+.practices__title {
+  position: relative;
+  max-width: 900px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(38px, 9vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.practices__intro {
+  position: relative;
+  max-width: 547px;
+  margin-top: 24px;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--brand-rozsas);
+}
+
+/* list */
+.practices__list-wrap {
+  position: relative;
+  margin-top: 64px;
+}
+
+.practices__row {
+  position: relative;
+}
+
+.practices__line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--brand-tort-feher);
+  opacity: 0.25;
+  transform-origin: left;
+}
+
+.practices__row:first-child .practices__line {
+  display: none;
+}
+
+.practices__link {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px 24px;
+  padding: 32px 0;
+}
+
+.practices__name {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 9vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.practices__soon {
+  margin-left: 0.25em;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  letter-spacing: 0;
+  color: var(--brand-puder);
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.practices__text {
+  grid-column: 1;
+  max-width: 420px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--brand-rozsas);
+}
+
+.practices__arrow {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+}
+
+.practices__arrow img {
+  width: 28px;
+  height: 28px;
+}
+
+/* hover / focus state: the row lights up */
+.practices__dim {
+  opacity: 0.6;
+  transition: opacity 0.5s var(--ease-out);
+}
+
+.practices__arrow .practices__dim {
+  transition:
+    opacity 0.5s var(--ease-out),
+    transform 0.5s var(--ease-out);
+}
+
+.is-soon .practices__name .practices__dim {
+  opacity: 0.45;
+}
+
+a.practices__link:hover .practices__dim,
+a.practices__link:focus-visible .practices__dim {
+  opacity: 1;
+}
+
+a.practices__link:hover .practices__arrow img,
+a.practices__link:focus-visible .practices__arrow img {
+  transform: translateX(6px);
+}
+
+/* hover photo – only where hovering exists */
+.practices__photo {
+  display: none;
+}
+
+/* small groups */
+.practices__number {
+  position: relative;
+  margin-top: 64px;
+  font-family: var(--font-display);
+  font-size: clamp(160px, 44vw, 340px);
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  color: var(--brand-puder);
+}
+
+.practices__group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 480px;
+}
+
+.practices__group-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 7vw, 36px);
+  line-height: 1.2;
+}
+
+.practices__group-text {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--brand-rozsas);
+}
+
+.practices__group-cta {
+  margin-top: 6px;
+}
+
+/* balance silhouette */
+.practices__figure {
+  position: relative;
+  width: min(100%, 640px);
+  margin: 72px auto 0;
+}
+
+.practices__figure-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 831.447 / 524.849;
+}
+
+.practices__figure-canvas img,
+.practices__figure-canvas canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ───────── Tablet ───────── */
+@media (min-width: 768px) {
+  .practices__link {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px) auto;
+    align-items: center;
+    padding: 44px 0;
+  }
+
+  .practices__text {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .practices__arrow {
+    grid-column: 3;
+  }
+
+  .practices__intro {
+    font-size: 20px;
+  }
+}
+
+/* ───────── Desktop – Figma „03 Mozgásformák” (1920 × 1849) ───────── */
+@media (min-width: 1200px) {
+  .practices {
+    height: 184.9rem;
+    padding: 0;
+  }
+
+  .practices__glow {
+    left: 10rem;
+    top: 89rem;
+    bottom: auto;
+    width: 172rem;
+    height: 132rem;
+  }
+
+  .practices__title {
+    position: absolute;
+    left: 10rem;
+    top: 16rem;
+    width: 90rem;
+    max-width: none;
+    font-size: 7.2rem;
+    letter-spacing: -0.072rem;
+  }
+
+  .practices__intro {
+    position: absolute;
+    left: 127.333rem;
+    top: 17.6rem;
+    width: 54.7rem;
+    max-width: none;
+    margin: 0;
+    font-size: max(2rem, 15px);
+  }
+
+  .practices__list-wrap {
+    position: absolute;
+    left: 10rem;
+    top: 50rem;
+    width: 172rem;
+    margin: 0;
+  }
+
+  .practices__link {
+    display: block;
+    height: 18rem;
+    padding: 0;
+  }
+
+  .practices__name {
+    position: absolute;
+    left: 0;
+    top: 5.2rem;
+    font-size: 7.2rem;
+    letter-spacing: -0.072rem;
+    white-space: nowrap;
+  }
+
+  .practices__soon {
+    position: absolute;
+    left: 100%;
+    top: 3.312rem;
+    margin-left: 1.8rem;
+    font-size: max(1.7rem, 13px);
+  }
+
+  .practices__text {
+    position: absolute;
+    left: 73.333rem;
+    top: 6.2rem;
+    width: 42rem;
+    max-width: none;
+    font-size: max(1.7rem, 13px);
+  }
+
+  .practices__arrow {
+    position: absolute;
+    left: 168.8rem;
+    top: 7.4rem;
+  }
+
+  .practices__arrow img {
+    width: 3.2rem;
+    height: 3.2rem;
+  }
+
+  .practices__number {
+    position: absolute;
+    left: 97.667rem;
+    top: 136rem;
+    margin: 0;
+    font-size: 34rem;
+    letter-spacing: -0.34rem;
+  }
+
+  .practices__group {
+    position: absolute;
+    left: 119.667rem;
+    top: 142rem;
+    width: 48rem;
+    max-width: none;
+    gap: 2rem;
+  }
+
+  .practices__group-title {
+    font-size: 3.6rem;
+  }
+
+  .practices__group-text {
+    font-size: max(1.7rem, 13px);
+  }
+
+  .practices__group-cta {
+    margin-top: 0.6rem;
+  }
+
+  .practices__figure {
+    position: absolute;
+    left: 18.234rem;
+    top: 122.456rem;
+    width: 83.1447rem;
+    margin: 0;
+  }
+}
+
+/* the photo follows the hovered row (Figma: 253.33 × 520, right of the descriptions) */
+@media (min-width: 1200px) and (hover: hover) {
+  .practices__photo {
+    position: absolute;
+    top: 0;
+    left: 132rem;
+    z-index: 1;
+    display: block;
+    width: 25.333rem;
+    height: 52rem;
+    overflow: hidden;
+    border-radius: 999px;
+    pointer-events: none;
+    visibility: hidden;
+    /* keeps the rounded clip while transforming (Safari) */
+    isolation: isolate;
+  }
+
+  .practices__photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+  }
+}

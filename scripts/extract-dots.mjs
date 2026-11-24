@@ -87,3 +87,26 @@ write('heroDots.json', {
     },
   });
 }
+
+/** 03 Mozgásformák – balance pose on bordó: light dots, colours taken from the SVG. */
+{
+  const svg = read('practices/balance-figure.svg');
+  const [, w, h] = svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+  const paths = [...svg.matchAll(/<path ([^>]*?)\sd="([^"]+)"([^>]*)\/>/g)].map((m) => ({
+    opacity: Number((m[1] + m[3]).match(/opacity="([^"]+)"/)?.[1] ?? 1),
+    color: (m[1] + m[3]).match(/fill="([^"]+)"/)[1],
+    dots: dotsFromD(m[2]),
+  }));
+  const soft = paths.find((p) => p.opacity < 1);
+  const main = paths.find((p) => p.opacity === 1);
+  write('balanceDots.json', {
+    width: Number(w),
+    height: Number(h),
+    softOpacity: soft.opacity,
+    softColor: soft.color,
+    mainColor: main.color,
+    soft: soft.dots,
+    bordo: main.dots,
+    scatter: dotsFromCircles(svg),
+  });
+}
