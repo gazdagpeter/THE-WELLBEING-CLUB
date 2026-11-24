@@ -98,7 +98,7 @@
 }
 
 .events__nav-btn:active {
-  transform: scale(0.96);
+  transform: scale(0.98);
 }
 
 /* card stage – mobile / tablet: a native swipe row, one card + a peek of the next */
@@ -109,6 +109,7 @@
 }
 
 .events__stage {
+  position: relative;
   display: flex;
   gap: 16px;
   margin: 0;
@@ -168,20 +169,24 @@
   box-shadow: 0 24px 60px -10px rgb(89 1 15 / 0.18);
   transition:
     background-color var(--tone),
-    transform 0.6s var(--ease-out),
-    box-shadow 0.6s var(--ease-out);
+    transform 0.8s var(--ease-out),
+    box-shadow 0.8s var(--ease-out);
 }
 
-/* light lift on hover */
+/* light lift on hover – frozen while the cards rotate, so nothing jitters under the cursor */
 @media (hover: hover) {
-  .event-card:hover .event-card__body {
-    transform: translateY(-12px) rotate(-1deg) scale(1.015);
-    box-shadow: 0 36px 70px -14px rgb(89 1 15 / 0.28);
+  .events__stage:not(.is-rotating) .event-card:hover .event-card__body {
+    transform: translateY(-10px) scale(1.01);
+    box-shadow: 0 36px 70px -14px rgb(89 1 15 / 0.26);
   }
 
-  .event-card:hover .event-card__photo img {
-    transform: scale(1.05);
+  .events__stage:not(.is-rotating) .event-card:hover .event-card__photo img {
+    transform: scale(1.04);
   }
+}
+
+.events__stage.is-rotating .event-card {
+  pointer-events: none;
 }
 
 .event-card__photo {

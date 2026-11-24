@@ -39,6 +39,8 @@ export default function Events() {
   const cards = useRef<(HTMLElement | null)[]>([]);
   const placed = useRef(false);
   const prevOrder = useRef<number[]>([0, 1, 2]);
+  /** true while the cards are rotating – clicks are ignored, hover is frozen */
+  const busy = useRef(false);
   const reducedMotion = usePrefersReducedMotion();
   const animated = !reducedMotion;
   /** desktop: tilted 3-card stack · below: side-by-side swipe row */
@@ -50,18 +52,34 @@ export default function Events() {
   /** mobile / tablet: page the native scroller one card at a time */
   const scrollByCard = useCallback((dir: 1 | -1) => {
     const stageEl = stage.current;
-    const card = cards.current[0];
-    if (!stageEl || !card) return;
-    const gap = parseFloat(getComputedStyle(stageEl).columnGap) || 0;
-    stageEl.scrollBy({ left: dir * (card.offsetWidth + gap), behavior: 'smooth' });
+    const list = cards.current.filter((card): card is HTMLElement => !!card);
+    if (!stageEl || !list.length) return;
+    // scroll exactly onto the neighbouring card's snap point (no fight with scroll-snap)
+    const pad = parseFloat(getComputedStyle(stageEl).paddingLeft) || 0;
+    const current = list.reduce(
+      (best, card, i) =>
+        Math.abs(card.offsetLeft - pad - stageEl.scrollLeft) <
+        Math.abs(list[best].offsetLeft - pad - stageEl.scrollLeft)
+          ? i
+          : best,
+      0,
+    );
+    const target = list[Math.min(list.length - 1, Math.max(0, current + dir))];
+    stageEl.scrollTo({ left: target.offsetLeft - pad, behavior: 'smooth' });
   }, []);
 
   const next = useCallback(() => {
-    if (isDesktop) setOrder((o) => [o[1], o[2], o[0]]);
+    if (isDesktop) {
+      if (busy.current) return;
+      setOrder((o) => [o[1], o[2], o[0]]);
+    }
     else scrollByCard(1);
   }, [isDesktop, scrollByCard]);
   const prev = useCallback(() => {
-    if (isDesktop) setOrder((o) => [o[2], o[0], o[1]]);
+    if (isDesktop) {
+      if (busy.current) return;
+      setOrder((o) => [o[2], o[0], o[1]]);
+    }
     else scrollByCard(-1);
   }, [isDesktop, scrollByCard]);
 
@@ -75,6 +93,19 @@ export default function Events() {
       }
       const slots = desktopSlots();
       const before = prevOrder.current;
+      const stageEl = stage.current;
+      const moving = !instant && animated && before.some((card, slot) => order[slot] !== card);
+      const DURATION = 1.1;
+
+      if (moving && stageEl) {
+        // freeze hover effects while cards travel under the cursor (no jitter)
+        busy.current = true;
+        stageEl.classList.add('is-rotating');
+        gsap.delayedCall(DURATION, () => {
+          busy.current = false;
+          stageEl.classList.remove('is-rotating');
+        });
+      }
 
       cards.current.forEach((card, index) => {
         if (!card) return;
@@ -83,19 +114,23 @@ export default function Events() {
         // the card travelling from one side to the other passes behind the others
         const wraps = Math.abs(slot - from) === 2;
         const { x, y, rotation } = slots[slot];
-        gsap.set(card, { zIndex: slot === CENTER ? 3 : wraps ? 0 : 1 });
-        if (instant || !animated) {
-          gsap.set(card, { x, y, rotation, xPercent: -50, yPercent: -50 });
+        const zIndex = slot === CENTER ? 3 : wraps ? 0 : 1;
+        if (!moving) {
+          gsap.set(card, { x, y, rotation, zIndex, xPercent: -50, yPercent: -50 });
           return;
         }
+        // stacking changes when the cards actually cross (mid-way), not at the start
+        if (wraps) gsap.set(card, { zIndex: 0 });
+        else gsap.delayedCall(DURATION * 0.4, () => gsap.set(card, { zIndex }));
         gsap.to(card, {
           keyframes: wraps
             ? [
-                { x: (x + Number(gsap.getProperty(card, 'x'))) / 2, y: y + 70, scale: 0.9, duration: 0.5, ease: 'power2.in' },
-                { x, y, rotation, scale: 1, duration: 0.6, ease: 'power3.out' },
+                { x: (x + Number(gsap.getProperty(card, 'x'))) / 2, y: y + 60, scale: 0.92, rotation: 0, duration: DURATION * 0.5, ease: 'sine.in' },
+                { x, y, rotation, scale: 1, duration: DURATION * 0.5, ease: 'sine.out' },
               ]
-            : [{ x, y, rotation, duration: 1, ease: 'power3.inOut' }],
+            : [{ x, y, rotation, duration: DURATION, ease: 'power2.inOut' }],
           overwrite: true,
+          onComplete: () => gsap.set(card, { zIndex }),
         });
       });
       prevOrder.current = order;
