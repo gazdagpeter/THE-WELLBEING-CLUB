@@ -2,6 +2,9 @@
 
 .practices {
   position: relative;
+  /* sits above „04 Közelgő események”, which is revealed underneath it */
+  z-index: 1;
+  overflow: clip;
   padding: 96px var(--page-gutter) 120px;
   background: var(--brand-bordo);
   color: var(--brand-tort-feher);

@@ -1,0 +1,379 @@
+/* ───────── 04 Közelgő események – mobile first ───────── */
+
+.events {
+  position: relative;
+  z-index: 0;
+  background: var(--brand-tort-feher);
+  color: var(--brand-bordo);
+}
+
+.events__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 96px var(--page-gutter) 112px;
+  overflow: clip;
+  will-change: transform;
+}
+
+.events__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.events__glow {
+  position: absolute;
+  left: -50%;
+  top: 30%;
+  width: 200%;
+  max-width: none;
+  height: auto;
+}
+
+.events__copy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.events__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(40px, 10vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.events__intro {
+  max-width: 480px;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-sotet);
+}
+
+/* prev / next */
+.events__nav {
+  position: relative;
+  z-index: 4;
+  order: 3;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.events__nav-btn {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 1.5px solid var(--brand-bordo);
+  border-radius: 50%;
+  background: transparent;
+  transition:
+    transform 0.4s var(--ease-out),
+    background-color 0.4s var(--ease-out);
+}
+
+.events__nav-btn img {
+  width: 24px;
+  height: 24px;
+}
+
+.events__nav-btn--next {
+  background: var(--brand-bordo);
+}
+
+.events__nav-btn:hover {
+  transform: scale(1.06);
+}
+
+.events__nav-btn--prev:hover {
+  background: rgb(89 1 16 / 0.06);
+}
+
+.events__nav-btn:active {
+  transform: scale(0.96);
+}
+
+/* card stage */
+.events__stage-wrap {
+  position: relative;
+  order: 2;
+  margin: 40px calc(var(--page-gutter) * -1) 0;
+}
+
+.events__stage {
+  position: relative;
+  height: 560px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ───────── event card (Figma „Eseménykártya”, Bordó / Púder) ───────── */
+
+.event-card {
+  --card-bg: var(--brand-bordo);
+  --card-date: var(--brand-puder);
+  --card-title: var(--brand-tort-feher);
+  --card-text: var(--brand-rozsas);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 290px;
+  cursor: pointer;
+  will-change: transform;
+}
+
+.event-card[data-theme='puder'] {
+  --card-bg: var(--brand-puder);
+  --card-date: var(--brand-bordo);
+  --card-title: var(--brand-bordo);
+  --card-text: var(--text-sotet);
+  cursor: default;
+}
+
+.event-card__body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: 26px;
+  border-radius: 28px;
+  background: var(--card-bg);
+  box-shadow: 0 24px 60px -10px rgb(89 1 15 / 0.18);
+  transition:
+    background-color 0.7s var(--ease-out),
+    transform 0.6s var(--ease-out),
+    box-shadow 0.6s var(--ease-out);
+}
+
+/* light lift on hover */
+@media (hover: hover) {
+  .event-card:hover .event-card__body {
+    transform: translateY(-12px) rotate(-1deg) scale(1.015);
+    box-shadow: 0 36px 70px -14px rgb(89 1 15 / 0.28);
+  }
+
+  .event-card:hover .event-card__photo img {
+    transform: scale(1.05);
+  }
+}
+
+.event-card__photo {
+  height: 190px;
+  overflow: hidden;
+}
+
+.event-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease-out);
+}
+
+.event-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 22px 24px 0;
+}
+
+.event-card__date {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--card-date);
+  transition: color 0.7s var(--ease-out);
+}
+
+.event-card__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.2;
+  color: var(--card-title);
+  transition: color 0.7s var(--ease-out);
+}
+
+.event-card__text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--card-text);
+  transition: color 0.7s var(--ease-out);
+}
+
+.event-card__place {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: nowrap;
+  color: var(--card-text);
+  transition: color 0.7s var(--ease-out);
+}
+
+.event-card__place-icon {
+  position: relative;
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.event-card__place-icon img {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.7s var(--ease-out);
+}
+
+.event-card .is-dark,
+.event-card[data-theme='puder'] .is-light {
+  opacity: 0;
+}
+
+.event-card[data-theme='puder'] .is-dark {
+  opacity: 1;
+}
+
+.event-card__cta {
+  margin-top: 8px;
+}
+
+/* ───────── Tablet ───────── */
+@media (min-width: 768px) {
+  .events__stage {
+    height: 640px;
+  }
+
+  .event-card {
+    width: 340px;
+  }
+
+  .event-card__photo {
+    height: 226px;
+  }
+
+  .event-card__title {
+    font-size: 34px;
+  }
+
+  .event-card__text {
+    font-size: 15px;
+  }
+
+  .events__intro {
+    font-size: 20px;
+  }
+}
+
+/* ───────── Desktop – Figma „04 Közelgő események” (1920 × 960) ───────── */
+@media (min-width: 1200px) {
+  .events__inner {
+    display: block;
+    height: 96rem;
+    padding: 0;
+  }
+
+  .events__glow {
+    left: 46rem;
+    top: 0;
+    width: 178rem;
+    height: 118rem;
+  }
+
+  .events__copy {
+    position: absolute;
+    left: 10rem;
+    top: 50%;
+    width: 60rem;
+    gap: 3.4rem;
+    transform: translateY(-50%);
+  }
+
+  .events__title {
+    font-size: 7.2rem;
+    letter-spacing: -0.072rem;
+  }
+
+  .events__intro {
+    width: 48rem;
+    max-width: none;
+    font-size: max(2rem, 15px);
+  }
+
+  .events__nav {
+    position: absolute;
+    left: 169.6rem;
+    top: 13rem;
+    gap: 1.2rem;
+    margin: 0;
+  }
+
+  .events__nav-btn {
+    width: 5.6rem;
+    height: 5.6rem;
+  }
+
+  .events__nav-btn img {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .events__stage-wrap {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+  }
+
+  .events__stage {
+    position: absolute;
+    inset: 0;
+    height: auto;
+  }
+
+  .event-card {
+    width: 36rem;
+  }
+
+  .event-card__body {
+    padding-bottom: 3rem;
+    border-radius: 3.2rem;
+  }
+
+  .event-card__photo {
+    height: 24rem;
+  }
+
+  .event-card__content {
+    gap: 1.2rem;
+    padding: 2.6rem 2.8rem 0;
+  }
+
+  .event-card__date,
+  .event-card__place {
+    font-size: max(1.3rem, 11px);
+  }
+
+  .event-card__title {
+    font-size: 3.6rem;
+  }
+
+  .event-card__text {
+    font-size: max(1.5rem, 12px);
+  }
+
+  .event-card__place-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+
+  .event-card__cta {
+    margin-top: 0.6rem;
+  }
+}
