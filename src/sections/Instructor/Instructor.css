@@ -27,9 +27,8 @@
   z-index: 2;
   order: 3;
   align-self: flex-end;
-  margin-top: -40px;
   font-family: var(--font-script);
-  font-size: clamp(56px, 15vw, 140px);
+  font-size: clamp(52px, 14vw, 100px);
   line-height: 0.85;
   white-space: nowrap;
   transform: rotate(5deg);
@@ -39,15 +38,29 @@
   margin: -0.3em -0.45em -0.4em -0.5em !important;
 }
 
+/* mobile / tablet: it gets its own line between the art and the texts, nothing overlaps */
+@media (max-width: 1199.98px) {
+  .instructor__name {
+    margin-top: 4px !important;
+    margin-bottom: -0.1em !important;
+    margin-right: calc(-0.45em + 4%) !important;
+  }
+}
+
 .instructor__name span {
   display: block;
 }
 
-.instructor__figure {
+/* mobile: dots + photo as one composition below the title (proportions as on desktop) */
+.instructor__art {
   position: relative;
   order: 2;
-  width: 130%;
-  margin: 24px -10% 0 -20%;
+  width: 125%;
+  margin: 32px 0 0 -15%;
+}
+
+.instructor__figure {
+  position: relative;
 }
 
 .instructor__figure-canvas {
@@ -63,25 +76,35 @@
   height: 100%;
 }
 
-/* cut-out photo sits on top of the dots */
+/* cut-out photo sits on top of the dots – same place inside the figure as in Figma */
 .instructor__photo {
   position: absolute;
   z-index: 1;
-  left: 0;
-  right: 0;
-  bottom: 96px;
-  width: 100%;
+  left: 14.75%;
+  top: 25.74%;
+  width: 74.54%;
   height: auto;
+  aspect-ratio: 1024 / 683;
+  object-fit: cover;
   pointer-events: none;
 }
 
+/* mobile: the copy's children join the section's flex flow (title above the art, texts below) */
 .instructor__copy {
+  display: contents;
+}
+
+.instructor__title {
+  order: 1;
+}
+
+.instructor__lead,
+.instructor__text,
+.instructor__cta {
   position: relative;
   z-index: 2;
-  order: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  order: 4;
+  align-self: flex-start;
 }
 
 .instructor__title {
@@ -93,7 +116,7 @@
 }
 
 .instructor__lead {
-  margin-top: 28px;
+  margin-top: 24px;
   max-width: 560px;
   font-weight: 300;
   font-size: 18px;
@@ -138,6 +161,10 @@
     font-size: 14rem;
   }
 
+  .instructor__art {
+    display: contents;
+  }
+
   .instructor__figure {
     position: absolute;
     left: 54.23rem;
@@ -158,9 +185,13 @@
 
   .instructor__copy {
     position: absolute;
+    z-index: 2;
     left: 10rem;
     top: 23rem;
     width: 66rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .instructor__title {

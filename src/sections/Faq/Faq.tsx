@@ -44,7 +44,7 @@ export default function Faq() {
         <p className="faq__intro" data-reveal>
           {c.intro}
         </p>
-        <div data-reveal>
+        <div className="faq__cta" data-reveal>
           <Button href={c.cta.href}>{c.cta.label}</Button>
         </div>
       </div>

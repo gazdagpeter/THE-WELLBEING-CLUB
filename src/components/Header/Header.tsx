@@ -36,6 +36,11 @@ export function Header() {
             </li>
           ))}
         </ul>
+        <div className="header__nav-booking">
+          <Button href={booking.href} onClick={() => setOpen(false)}>
+            {booking.label}
+          </Button>
+        </div>
       </nav>
 
       <div className="header__right">
@@ -70,8 +75,8 @@ export function Header() {
           onClick={() => setOpen((v) => !v)}
         >
           <span className="visually-hidden">{open ? closeLabel : menuLabel}</span>
-          <span className="header__toggle-bar" aria-hidden="true" />
-          <span className="header__toggle-bar" aria-hidden="true" />
+          <span className="header__toggle-bar header__toggle-bar--top" aria-hidden="true" />
+          <span className="header__toggle-bar header__toggle-bar--bottom" aria-hidden="true" />
         </button>
       </div>
     </header>

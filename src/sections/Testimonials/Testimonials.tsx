@@ -1,6 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import navPrev from '@/assets/testimonials/nav-prev.svg';
-import navNext from '@/assets/testimonials/nav-next.svg';
+import { NavArrow } from '@/components/NavArrow/NavArrow';
 import { testimonialsContent } from '@/content/testimonials';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
@@ -22,7 +21,8 @@ export default function Testimonials() {
   const go = (dir: 1 | -1) => {
     if (busy.current) return;
     const el = slide.current;
-    const nextIndex = (index + dir + c.items.length) % c.items.length;
+    const nextIndex = index + dir;
+    if (nextIndex < 0 || nextIndex >= c.items.length) return;
     if (!el || reducedMotion) {
       setIndex(nextIndex);
       return;
@@ -74,12 +74,22 @@ export default function Testimonials() {
       </div>
 
       <div className="testimonials__nav" data-reveal>
-        <button type="button" className="testimonials__btn testimonials__btn--prev" onClick={() => go(-1)} aria-label={c.prevLabel}>
-          <img src={navPrev} alt="" width={32} height={32} />
-        </button>
-        <button type="button" className="testimonials__btn testimonials__btn--next" onClick={() => go(1)} aria-label={c.nextLabel}>
-          <img src={navNext} alt="" width={32} height={32} />
-        </button>
+        <NavArrow
+          direction="prev"
+          tone="light"
+          className="testimonials__btn"
+          onClick={() => go(-1)}
+          aria-label={c.prevLabel}
+          disabled={index === 0}
+        />
+        <NavArrow
+          direction="next"
+          tone="light"
+          className="testimonials__btn"
+          onClick={() => go(1)}
+          aria-label={c.nextLabel}
+          disabled={index === c.items.length - 1}
+        />
       </div>
     </section>
   );

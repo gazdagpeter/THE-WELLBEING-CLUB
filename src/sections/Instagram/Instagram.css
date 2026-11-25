@@ -4,7 +4,7 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
-  padding: 88px var(--page-gutter) 96px;
+  padding: 88px var(--page-gutter) 56px;
   overflow: clip;
   background: var(--brand-tort-feher);
   color: var(--brand-bordo);
@@ -34,21 +34,69 @@
   padding-bottom: 0.12em;
 }
 
-.insta__photos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
-  margin: 56px 0 0;
-  padding: 0;
+/* ── mobile / tablet: one endless, swipeable row of tilted photos ── */
+.insta__row {
+  margin: 56px calc(var(--page-gutter) * -1) 0;
+  /* room for the tilt and the shadows */
+  padding: 24px 0 40px;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@media (pointer: fine) {
+  .insta__row {
+    cursor: grab;
+  }
+}
+
+.insta__row.is-dragging {
+  cursor: grabbing;
+}
+
+.insta__row.is-static {
+  overflow-x: auto;
+  touch-action: auto;
+  scrollbar-width: none;
+}
+
+.insta__row.is-static .insta__set {
+  padding-left: var(--page-gutter);
+}
+
+.insta__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.insta__set {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0;
+  /* trailing gap = inner gap, so both halves of the track are equally wide */
+  padding: 0 18px 0 0;
   list-style: none;
 }
 
-.insta__photo {
+/* Figma sizes scaled to about 60 % – alternating up / down for a lively rhythm */
+.insta__slide {
+  flex: none;
+  width: calc(var(--w) * 0.62px);
   transform: rotate(var(--r));
 }
 
-.insta__photo:nth-child(even) {
-  margin-top: 28px;
+.insta__slide:nth-child(even) {
+  margin-top: 36px;
+}
+
+.insta__slide .insta__inner {
+  border-radius: 18px;
+}
+
+.insta__slide img {
+  -webkit-user-drag: none;
 }
 
 .insta__inner {
@@ -65,13 +113,20 @@
   transition: transform 0.9s var(--ease-out);
 }
 
-.insta__photo:hover img {
-  transform: scale(1.05);
+@media (hover: hover) {
+  .insta__photo:hover img {
+    transform: scale(1.05);
+  }
 }
 
 @media (min-width: 768px) {
-  .insta__photos {
-    grid-template-columns: repeat(4, 1fr);
+  .insta__slide {
+    width: calc(var(--w) * 0.8px);
+  }
+
+  .insta__set {
+    gap: 28px;
+    padding-right: 28px;
   }
 }
 
@@ -88,6 +143,8 @@
     inset: 0;
     display: block;
     margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
   .insta__photo {
@@ -95,7 +152,6 @@
     left: calc(var(--x) * 0.1rem);
     top: calc(var(--y) * 0.1rem);
     width: calc(var(--w) * 0.1rem);
-    margin: 0 !important;
     transform: translate(-50%, -50%) rotate(var(--r));
   }
 

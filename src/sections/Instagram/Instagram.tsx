@@ -8,6 +8,8 @@ import ig6 from '@/assets/instagram/ig-6.webp';
 import ig7 from '@/assets/instagram/ig-7.webp';
 import ig8 from '@/assets/instagram/ig-8.webp';
 import { Button } from '@/components/Button/Button';
+import { useDragLoop } from '@/hooks/useDragLoop';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { gsap, useGSAP } from '@/lib/gsap';
@@ -25,15 +27,44 @@ const PHOTOS = [
   { src: ig8, x: 1665.1, y: 815.7, w: 260, h: 330, r: 5, speed: -40 },
 ];
 
-/** „11 Instagram és felhívás” – photos drift in and float at different speeds around the call to action. */
+/** Mobile / tablet photo row: drift speed in px per second. */
+const ROW_SPEED = 34;
+
+/**
+ * „11 Instagram és felhívás”
+ *  - desktop: photos drift in and float at different speeds around the call to action
+ *  - mobile / tablet: one endless row of tilted photos below it, drifting on its own and swipeable by hand
+ */
 export default function Instagram() {
   const root = useRef<HTMLElement>(null);
+  const row = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLDivElement>(null);
   const reducedMotion = usePrefersReducedMotion();
+  const isDesktop = useMediaQuery('(min-width: 1200px)');
   useScrollReveal(root);
+
+  useDragLoop(row, track, { enabled: !isDesktop && !reducedMotion, speed: () => ROW_SPEED });
+
+  // mobile row: the photos arrive one after another
+  useGSAP(
+    () => {
+      if (isDesktop || reducedMotion || !row.current) return;
+      gsap.from(row.current.querySelectorAll('.insta__set:first-child .insta__slide'), {
+        autoAlpha: 0,
+        y: 40,
+        rotation: (i: number) => (i % 2 ? -8 : 8),
+        duration: 1.2,
+        stagger: 0.09,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: row.current, start: 'top 85%', once: true },
+      });
+    },
+    { scope: root, dependencies: [isDesktop, reducedMotion] },
+  );
 
   useGSAP(
     () => {
-      if (reducedMotion) return;
+      if (reducedMotion || !isDesktop) return;
       gsap.utils.toArray<HTMLElement>('.insta__photo', root.current).forEach((el, i) => {
         const r = Number(el.dataset.r);
         // arrive: from a little further out, more tilted and smaller
@@ -54,29 +85,50 @@ export default function Instagram() {
         );
       });
     },
-    { scope: root, dependencies: [reducedMotion] },
+    { scope: root, dependencies: [reducedMotion, isDesktop] },
+  );
+
+  const slides = (copy: number) => (
+    <ul className="insta__set" key={copy}>
+      {PHOTOS.map((p, i) => (
+        <li key={i} className="insta__slide" style={{ '--w': p.w, '--h': p.h, '--r': `${p.r}deg` } as CSSProperties}>
+          <div className="insta__inner">
+            <img src={p.src} alt="" loading="lazy" draggable={false} />
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 
   return (
     <section ref={root} className="insta" aria-labelledby="insta-title">
-      <ul className="insta__photos" aria-hidden="true">
-        {PHOTOS.map((p, i) => (
-          <li
-            key={i}
-            className="insta__photo"
-            data-r={p.r}
-            data-speed={p.speed}
-            style={{ '--x': p.x, '--y': p.y, '--w': p.w, '--h': p.h, '--r': `${p.r}deg` } as CSSProperties}
-          >
-            {/* reveal (arrive) and float (parallax) live on separate layers, the tilt on the <li> */}
-            <div className="insta__reveal">
-              <div className="insta__inner">
-                <img src={p.src} alt="" loading="lazy" />
+      {isDesktop ? (
+        <ul className="insta__photos" aria-hidden="true">
+          {PHOTOS.map((p, i) => (
+            <li
+              key={i}
+              className="insta__photo"
+              data-r={p.r}
+              data-speed={p.speed}
+              style={{ '--x': p.x, '--y': p.y, '--w': p.w, '--h': p.h, '--r': `${p.r}deg` } as CSSProperties}
+            >
+              {/* reveal (arrive) and float (parallax) live on separate layers, the tilt on the <li> */}
+              <div className="insta__reveal">
+                <div className="insta__inner">
+                  <img src={p.src} alt="" loading="lazy" />
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div ref={row} className={`insta__row${reducedMotion ? ' is-static' : ''}`} aria-hidden="true">
+          <div ref={track} className="insta__track">
+            {slides(0)}
+            {!reducedMotion && slides(1)}
+          </div>
+        </div>
+      )}
 
       <div className="insta__cta">
         <h2 id="insta-title" className="insta__title">

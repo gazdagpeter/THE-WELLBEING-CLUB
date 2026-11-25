@@ -2,11 +2,10 @@ import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import glowRose from '@/assets/events/glow-rose.svg';
 import iconLocationLight from '@/assets/events/icon-location-light.svg';
 import iconLocationDark from '@/assets/events/icon-location-dark.svg';
-import navPrev from '@/assets/events/nav-prev.svg';
-import navNext from '@/assets/events/nav-next.svg';
 import arrowLight from '@/assets/hero/arrow-light.svg';
 import arrowBordo from '@/assets/hero/arrow-bordo.svg';
 import { Button } from '@/components/Button/Button';
+import { NavArrow } from '@/components/NavArrow/NavArrow';
 import { eventsContent } from '@/content/events';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
@@ -216,18 +215,17 @@ export default function Events() {
             {c.title}
           </h2>
           <p className="events__intro">{c.intro}</p>
-          <Button variant="text" href={c.all.href}>
-            {c.all.label}
-          </Button>
+          {isDesktop && (
+            <Button variant="text" href={c.all.href}>
+              {c.all.label}
+            </Button>
+          )}
         </div>
 
+        {/* endless rotation – both directions are always possible, so both arrows are filled */}
         <div className="events__nav" data-emerge>
-          <button type="button" className="events__nav-btn events__nav-btn--prev" onClick={prev} aria-label={c.prevLabel}>
-            <img src={navPrev} alt="" width={24} height={24} />
-          </button>
-          <button type="button" className="events__nav-btn events__nav-btn--next" onClick={next} aria-label={c.nextLabel}>
-            <img src={navNext} alt="" width={24} height={24} />
-          </button>
+          <NavArrow direction="prev" tone="dark" className="events__nav-btn" onClick={prev} aria-label={c.prevLabel} />
+          <NavArrow direction="next" tone="dark" className="events__nav-btn" onClick={next} aria-label={c.nextLabel} />
         </div>
 
         <div className="events__stage-wrap" data-emerge>
@@ -286,6 +284,15 @@ export default function Events() {
             })}
           </ul>
         </div>
+
+        {/* mobile / tablet: „Összes esemény” closes the block, below the cards */}
+        {!isDesktop && (
+          <div className="events__all" data-emerge>
+            <Button variant="text" href={c.all.href}>
+              {c.all.label}
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

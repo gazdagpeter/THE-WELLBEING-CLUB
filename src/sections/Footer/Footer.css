@@ -23,15 +23,15 @@
 
 .footer__cols {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px 24px;
+  grid-template-columns: 1fr;
+  gap: 32px;
 }
 
 .footer__col-title {
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(24px, 6vw, 36px);
+  font-size: clamp(24px, 6.4vw, 36px);
   line-height: 1.2;
   color: var(--brand-puder);
 }
@@ -43,20 +43,25 @@
 
 .footer__nav {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 16px 48px;
+  flex-direction: column;
+  gap: 28px;
 }
 
 .footer__nav ul {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px 32px;
+  flex-direction: column;
+}
+
+/* generous touch targets: each menu item is a 48px tall row */
+.footer__nav li a {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
 }
 
 .footer__nav a {
   font-family: var(--font-display);
-  font-size: clamp(22px, 5.4vw, 28px);
+  font-size: clamp(24px, 6.4vw, 28px);
   line-height: 1.25;
   transition: color 0.4s var(--ease-out);
 }
@@ -67,7 +72,14 @@
 
 .footer__lang {
   display: flex;
-  gap: 24px;
+  gap: 8px;
+}
+
+.footer__lang a {
+  display: inline-flex;
+  align-items: center;
+  min-width: 48px;
+  min-height: 48px;
 }
 
 .footer__lang a:not(.is-active) {
@@ -88,6 +100,7 @@
 
 .footer__bottom {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px 32px;
@@ -98,7 +111,27 @@
 
 .footer__legal {
   display: flex;
-  gap: 32px;
+  flex-wrap: wrap;
+  gap: 4px 28px;
+}
+
+.footer__legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+}
+
+/* tablet: the four info blocks may sit two by two again */
+@media (min-width: 640px) {
+  .footer__cols {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 32px;
+  }
+
+  .footer__bottom {
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 .footer__credit {
@@ -153,10 +186,24 @@
     left: 10rem;
     right: 10rem;
     top: 44rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.6rem 4.8rem;
   }
 
   .footer__nav ul {
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 4.8rem;
+  }
+
+  .footer__nav li a,
+  .footer__lang a,
+  .footer__legal a {
+    display: inline;
+    min-width: 0;
+    min-height: 0;
   }
 
   .footer__nav a {
@@ -165,6 +212,11 @@
 
   .footer__lang {
     gap: 2.4rem;
+  }
+
+  .footer__bottom {
+    flex-direction: row;
+    align-items: normal;
   }
 
   .footer__rule {

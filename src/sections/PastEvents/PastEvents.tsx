@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
-import navPrev from '@/assets/past/nav-prev.svg';
-import navNext from '@/assets/past/nav-next.svg';
 import { Button } from '@/components/Button/Button';
+import { NavArrow } from '@/components/NavArrow/NavArrow';
 import { pastEventsContent } from '@/content/pastEvents';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { gsap, useGSAP } from '@/lib/gsap';
@@ -14,7 +13,8 @@ export default function PastEvents() {
   const c = pastEventsContent;
   const [current, setCurrent] = useState(0);
   const count = c.items.length;
-  const go = (dir: 1 | -1) => setCurrent((i) => (i + dir + count) % count);
+  // bounded paging: the arrows show clearly whether there is more in that direction
+  const go = (dir: 1 | -1) => setCurrent((i) => Math.min(count - 1, Math.max(0, i + dir)));
 
   useGSAP(
     () => {
@@ -41,8 +41,15 @@ export default function PastEvents() {
         duration: 1.1,
         stagger: 0.12,
         ease: 'power3.out',
-        // triggered by the (untransformed) section, so the start point is always reachable
-        scrollTrigger: { trigger: root.current, start: 'bottom-=80 bottom', toggleActions: 'play none none reverse' },
+        // triggered by the (untransformed) section, so the start point is always reachable.
+        // Mobile: the card is taller than half the screen – the texts come in earlier,
+        // while the card is still growing, so the title is never missing above it.
+        scrollTrigger: {
+          trigger: root.current,
+          start: () => (window.innerWidth < 1200 ? 'top 70%' : 'bottom-=80 bottom'),
+          toggleActions: 'play none none reverse',
+          invalidateOnRefresh: true,
+        },
       });
     },
     { scope: root, dependencies: [reducedMotion] },
@@ -82,12 +89,22 @@ export default function PastEvents() {
           ))}
         </div>
         <div className="past__nav" data-past-fade>
-          <button type="button" className="past__nav-btn past__nav-btn--prev" aria-label={c.prevLabel} onClick={() => go(-1)}>
-            <img src={navPrev} alt="" width={36} height={36} />
-          </button>
-          <button type="button" className="past__nav-btn past__nav-btn--next" aria-label={c.nextLabel} onClick={() => go(1)}>
-            <img src={navNext} alt="" width={36} height={36} />
-          </button>
+          <NavArrow
+            direction="prev"
+            tone="light"
+            className="past__nav-btn"
+            aria-label={c.prevLabel}
+            disabled={current === 0}
+            onClick={() => go(-1)}
+          />
+          <NavArrow
+            direction="next"
+            tone="light"
+            className="past__nav-btn"
+            aria-label={c.nextLabel}
+            disabled={current === count - 1}
+            onClick={() => go(1)}
+          />
         </div>
       </div>
     </section>

@@ -67,39 +67,10 @@
   margin-top: 16px;
 }
 
-.events__nav-btn {
-  display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  padding: 0;
-  border: 1.5px solid var(--brand-bordo);
-  border-radius: 50%;
-  background: transparent;
-  transition:
-    transform 0.4s var(--ease-out),
-    background-color 0.4s var(--ease-out);
-}
-
-.events__nav-btn img {
-  width: 24px;
-  height: 24px;
-}
-
-.events__nav-btn--next {
-  background: var(--brand-bordo);
-}
-
-.events__nav-btn:hover {
-  transform: scale(1.06);
-}
-
-.events__nav-btn--prev:hover {
-  background: rgb(89 1 16 / 0.06);
-}
-
-.events__nav-btn:active {
-  transform: scale(0.98);
+.events__all {
+  position: relative;
+  order: 4;
+  margin-top: 8px;
 }
 
 /* card stage – mobile / tablet: a native swipe row, one card + a peek of the next */
@@ -378,7 +349,7 @@
     height: 5.6rem;
   }
 
-  .events__nav-btn img {
+  .events__nav-btn .nav-arrow__icon {
     width: 2.4rem;
     height: 2.4rem;
   }

@@ -13,7 +13,7 @@ const COLUMNS = [
   { title: 'Kövess minket', lines: ['Instagram', 'Facebook'] },
 ];
 
-/** „12 Lábléc” – columns rise in, the full-width logo is uncovered while scrolling to the end. */
+/** „12 Lábléc” – columns rise in, the full-width logo is uncovered when it comes into view. */
 export default function Footer() {
   const root = useRef<HTMLElement>(null);
   const reducedMotion = usePrefersReducedMotion();
@@ -22,14 +22,18 @@ export default function Footer() {
   useGSAP(
     () => {
       if (reducedMotion) return;
+      // a one-shot reveal (not scrubbed): it always finishes, even when the logo sits
+      // so close to the page end that a scroll-linked tween could never reach 100 %
       gsap.fromTo(
         '.footer__logo',
-        { clipPath: 'inset(100% 0% 0% 0%)', y: 80 },
+        { clipPath: 'inset(100% 0% 0% 0%)', y: 60 },
         {
           clipPath: 'inset(0% 0% 0% 0%)',
           y: 0,
-          ease: 'none',
-          scrollTrigger: { trigger: '.footer__logo', start: 'top 95%', end: 'bottom bottom', scrub: 0.6 },
+          duration: 1.6,
+          ease: 'power3.out',
+          clearProps: 'clipPath,transform',
+          scrollTrigger: { trigger: '.footer__logo', start: 'top 92%', once: true },
         },
       );
     },

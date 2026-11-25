@@ -11,11 +11,24 @@
   color: var(--brand-bordo);
 }
 
+/* mobile: the copy's children join the section's flow – the silhouette sits right under the title */
 .faq__copy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 28px;
+  display: contents;
+}
+
+.faq__title {
+  order: 1;
+}
+
+.faq__intro {
+  order: 3;
+  margin-top: 8px;
+}
+
+.faq__cta {
+  order: 4;
+  align-self: flex-start;
+  margin-top: 28px;
 }
 
 .faq__title {
@@ -35,9 +48,9 @@
 }
 
 .faq__figure {
-  order: 3;
-  width: min(100%, 560px);
-  margin: 40px auto 0;
+  order: 2;
+  width: min(100%, 520px);
+  margin: 12px auto 4px;
 }
 
 .faq__figure-canvas {
@@ -53,46 +66,55 @@
   height: 100%;
 }
 
-/* question pills */
+/* question pills – mobile: full width, all the same, stacked in one centred column */
 .faq__list {
+  order: 5;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-top: 48px;
+  align-items: stretch;
+  width: 100%;
+  max-width: 640px;
+  margin: 48px auto 0;
 }
 
 .faq__item {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  max-width: 100%;
+  align-items: stretch;
 }
 
 .faq__item + .faq__item {
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .faq__q {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
-  max-width: 100%;
+  width: 100%;
+  min-height: 64px;
   padding: 14px 16px 14px 24px;
   border: 0;
   border-radius: 999px;
   background: var(--brand-puder);
   color: var(--brand-bordo);
   font-family: var(--font-display);
-  font-size: clamp(22px, 5.6vw, 36px);
+  font-size: clamp(21px, 5.6vw, 30px);
   line-height: 1.2;
   text-align: left;
-  transition:
-    background-color 0.5s var(--ease-out),
-    transform 0.5s var(--ease-out);
+  /* no CSS transition on the button's own transform – GSAP animates it on reveal */
+  transition: background-color 0.5s var(--ease-out);
 }
 
-.faq__q:hover {
-  transform: translateX(-4px);
+.faq__q > span {
+  transition: transform 0.5s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .faq__q:hover > span {
+    transform: translateX(-4px);
+  }
 }
 
 .faq__item.is-open .faq__q {
@@ -144,13 +166,13 @@
 }
 
 .faq__a {
-  margin: 12px 0 8px;
-  padding: 24px 26px;
-  border-radius: 24px 6px 24px 24px;
+  margin: 10px 0 6px;
+  padding: 22px 24px;
+  border-radius: 24px;
   background: var(--brand-bordo);
   color: var(--brand-tort-feher);
   font-weight: 300;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.6;
   opacity: 0;
   transform: translateY(-10px);
@@ -178,6 +200,9 @@
     left: 10rem;
     top: 15rem;
     width: 56rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 0;
   }
 
@@ -193,7 +218,7 @@
     font-size: max(2rem, 15px);
   }
 
-  .faq__copy > div {
+  .faq__cta {
     margin-top: 4rem;
   }
 
@@ -210,11 +235,14 @@
     right: 10rem;
     top: 15rem;
     width: 72rem;
+    max-width: none;
     align-items: flex-end;
     margin: 0;
   }
 
   .faq__item {
+    align-items: flex-end;
+    max-width: 100%;
     margin-right: calc(var(--shift) * 1rem);
   }
 
@@ -223,6 +251,11 @@
   }
 
   .faq__q {
+    display: inline-flex;
+    justify-content: flex-start;
+    width: auto;
+    max-width: 100%;
+    min-height: 0;
     gap: 2.4rem;
     padding: 2.2rem 2.4rem 2.2rem 4rem;
     font-size: 3.6rem;

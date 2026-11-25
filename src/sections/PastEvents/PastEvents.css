@@ -15,6 +15,7 @@
 }
 
 .past__title {
+  order: 1;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(40px, 10vw, 72px);
@@ -24,8 +25,10 @@
 
 .past__photo {
   position: relative;
+  order: 2;
   flex: 1 0 100%;
-  aspect-ratio: 4 / 5;
+  /* mobile: a tall card – room for the photo and the details below it */
+  aspect-ratio: 5 / 7;
   margin-top: 16px;
   overflow: hidden;
   border-radius: 32px;
@@ -67,20 +70,34 @@
   transition-delay: 0.15s;
 }
 
-/* Figma „Olvashatósági átmenet” */
+/* „Összes esemény” – mobile / tablet: below the card */
+.past__all {
+  order: 3;
+  margin-top: 16px;
+}
+
+/* Figma „Olvashatósági átmenet” – on small screens deeper and taller, so the
+   text over busy photos stays readable */
 .past__shade {
   position: absolute;
   inset: auto 0 0;
-  height: 64%;
-  background: linear-gradient(to bottom, rgb(89 1 16 / 0), rgb(89 1 16 / 0.9));
+  height: 78%;
+  background: linear-gradient(
+    to bottom,
+    rgb(61 10 20 / 0) 0%,
+    rgb(61 10 20 / 0.55) 38%,
+    rgb(61 10 20 / 0.86) 68%,
+    rgb(61 10 20 / 0.94) 100%
+  );
 }
 
 .past__info {
   position: absolute;
   left: 24px;
   right: 24px;
-  bottom: 120px;
+  bottom: 112px;
   display: grid;
+  text-shadow: 0 1px 18px rgb(61 10 20 / 0.45);
 }
 
 .past__name {
@@ -108,33 +125,18 @@
 }
 
 .past__nav-btn {
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  padding: 0;
-  border: 1.5px solid var(--brand-tort-feher);
-  border-radius: 50%;
-  background: transparent;
-  transition: transform 0.4s var(--ease-out);
+  width: 60px;
+  height: 60px;
 }
 
-.past__nav-btn img {
+.past__nav-btn .nav-arrow__icon {
   width: 26px;
   height: 26px;
 }
 
-.past__nav-btn--next {
-  background: var(--brand-tort-feher);
-}
-
-.past__nav-btn:hover {
-  transform: scale(1.05);
-}
-
 @media (min-width: 768px) {
   .past__photo {
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 11;
     border-radius: 40px;
   }
 
@@ -176,6 +178,7 @@
     position: absolute;
     left: 167rem;
     top: 11.8rem;
+    margin: 0;
   }
 
   .past__photo {
@@ -191,6 +194,11 @@
 
   .past__shade {
     height: 46rem;
+    background: linear-gradient(to bottom, rgb(89 1 16 / 0), rgb(89 1 16 / 0.9));
+  }
+
+  .past__info {
+    text-shadow: none;
   }
 
   .past__info {
@@ -229,7 +237,7 @@
     height: 8.8rem;
   }
 
-  .past__nav-btn img {
+  .past__nav-btn .nav-arrow__icon {
     width: 3.6rem;
     height: 3.6rem;
   }

@@ -57,28 +57,13 @@
 }
 
 .testimonials__btn {
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  padding: 0;
-  border: 1.5px solid var(--brand-tort-feher);
-  border-radius: 50%;
-  background: transparent;
-  transition: transform 0.4s var(--ease-out);
+  width: 60px;
+  height: 60px;
 }
 
-.testimonials__btn img {
-  width: 28px;
-  height: 28px;
-}
-
-.testimonials__btn--next {
-  background: var(--brand-tort-feher);
-}
-
-.testimonials__btn:hover {
-  transform: scale(1.05);
+.testimonials__btn .nav-arrow__icon {
+  width: 26px;
+  height: 26px;
 }
 
 /* ───────── Desktop – Figma (1920 × 1095) ───────── */
@@ -133,7 +118,7 @@
     height: 7.2rem;
   }
 
-  .testimonials__btn img {
+  .testimonials__btn .nav-arrow__icon {
     width: 3.2rem;
     height: 3.2rem;
   }

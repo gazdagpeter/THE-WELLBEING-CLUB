@@ -41,9 +41,37 @@
   color: var(--brand-rozsas);
 }
 
-/* endless card row */
+/* endless card row – swipeable sideways, the page still scrolls vertically */
 .private__row {
   margin-top: 32px;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@media (pointer: fine) {
+  .private__row {
+    cursor: grab;
+  }
+}
+
+.private__row.is-dragging {
+  cursor: grabbing;
+}
+
+/* reduced motion: no loop – a plain native scroller */
+.private__row.is-static {
+  overflow-x: auto;
+  touch-action: auto;
+  scrollbar-width: none;
+}
+
+.private__row.is-static .private__set {
+  padding-left: var(--page-gutter);
+}
+
+.private__photo img {
+  -webkit-user-drag: none;
 }
 
 .private__track {
